@@ -154,13 +154,13 @@ export function Hero() {
         initial={{ opacity: 0, y: 60 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1, delay: 0.6 }}
-        className="relative z-10 w-full px-6 md:px-12 pb-2"
+        className="relative z-10 w-full px-6 md:px-12 pb-1"
       >
-        <div className="relative aspect-[16/5.4] md:aspect-[21/6.4] max-w-6xl mx-auto">
+        <div className="relative mx-auto w-[94vw] md:w-[86vw] lg:w-[78vw] xl:w-[72vw] aspect-[16/6]">
           <ImagePlaceholder
             title="Hero Product Shot"
-            note="Replace with: Kamper closed/compact on clean background"
-            className="rounded-none border-charcoal-foreground/35 bg-black/10 text-charcoal-foreground"
+            note="Replace with: Kamper closed frame matching sequence frame 01 angle"
+            className="rounded-xl border-charcoal-foreground/35 bg-black/10 text-charcoal-foreground"
           />
         </div>
       </motion.div>

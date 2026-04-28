@@ -8,15 +8,17 @@ import { ImagePlaceholder } from "@/components/kamper/image-placeholder"
 const FRAMES = ["01 Closed", "02 Opening", "03 Mid", "04 Open", "05 Ready", "06 Cook Ready"]
 const SHARED_BACKGROUND = "/landing-background.png"
 const STEP_RANGE = [0, 1, 2, 3, 4, 5]
+const STEP_OPACITY_SPAN = 0.28
+const FRAME_OPACITY_SPAN = 0.34
 const TITLE_Y_STEPS = [
   "calc(10vh - 120px)",
-  "calc(7vh - 120px)",
-  "calc(4vh - 120px)",
-  "calc(1vh - 120px)",
-  "calc(-2vh - 120px)",
-  "calc(-5vh - 120px)",
+  "calc(6vh - 120px)",
+  "calc(2vh - 120px)",
+  "calc(-3vh - 120px)",
+  "calc(-8vh - 120px)",
+  "calc(-13vh - 120px)",
 ]
-const COPY_BLOCK_Y_STEPS = ["13vh", "9vh", "5vh", "1vh", "-3vh", "-8vh"]
+const COPY_BLOCK_Y_STEPS = ["15vh", "10vh", "5vh", "0vh", "-6vh", "-12vh"]
 const CENTER_COPY_Y_STEPS = ["0vh", "-0.4vh", "-0.8vh", "-1.2vh", "-1.6vh", "-2vh"]
 const RIGHT_COPY_Y_STEPS = ["1vh", "0.4vh", "-0.4vh", "-0.9vh", "-1.3vh", "-1.8vh"]
 const STORY_STEPS = [
@@ -64,7 +66,7 @@ const STORY_STEPS = [
     bgTitle: "COOK ANYWHERE",
     caption: "Ready to cook",
     centerDescription: "One box becomes a complete\noutdoor kitchen.\nOne smooth sequence.",
-    rightDescription: "Set, prep, and cook with less mess and faster cleanup.",
+    rightDescription: "Set, prep, and cook with less mess\nand faster cleanup.",
     placement: "rightCenter",
     cta: "Back on Kickstarter",
   },
@@ -80,16 +82,16 @@ export function RevealSection() {
 
   // Calculate which frame to show based on scroll progress
   // Keep some scroll at the start/end for pause beats.
-  const frameIndex = useTransform(scrollYProgress, [0.08, 0.92], [0, FRAMES.length - 1])
+  const frameIndex = useTransform(scrollYProgress, [0.12, 0.9], [0, FRAMES.length - 1])
   
   // Background text opacity and position
-  const textOpacity = useTransform(scrollYProgress, [0.1, 0.3, 0.7, 0.9], [0, 1, 1, 0])
+  const textOpacity = useTransform(scrollYProgress, [0.12, 0.22, 0.86, 0.94], [0, 1, 1, 0])
   const textY = useTransform(scrollYProgress, [0.1, 0.5, 0.9], ["20%", "0%", "-20%"])
   
   // Description text
-  const descOpacity = useTransform(scrollYProgress, [0.3, 0.5, 0.8, 1], [0, 1, 1, 0])
-  const productY = useTransform(scrollYProgress, [0.08, 0.92], ["-8vh", "16vh"])
-  const textRiseY = useTransform(scrollYProgress, [0.08, 0.92], ["9vh", "-9vh"])
+  const descOpacity = useTransform(scrollYProgress, [0.2, 0.3, 0.88, 0.97], [0, 1, 1, 0])
+  const productY = useTransform(scrollYProgress, [0.12, 0.9], ["-1vh", "12vh"])
+  const textRiseY = useTransform(scrollYProgress, [0.12, 0.9], ["8vh", "-8vh"])
   const titleY = useTransform(frameIndex, STEP_RANGE, TITLE_Y_STEPS)
   const copyBlockY = useTransform(frameIndex, STEP_RANGE, COPY_BLOCK_Y_STEPS)
   const centerCopyY = useTransform(frameIndex, STEP_RANGE, CENTER_COPY_Y_STEPS)
@@ -99,7 +101,7 @@ export function RevealSection() {
     <section 
       ref={containerRef} 
       id="reveal" 
-      className="relative h-[620vh] bg-charcoal text-charcoal-foreground"
+      className="relative -mt-[8vh] md:-mt-[10vh] h-[calc(620vh+24px)] bg-charcoal text-charcoal-foreground"
     >
       <div className="sticky top-0 h-screen overflow-hidden flex items-center justify-center relative">
         <div className="absolute inset-0 z-0">
@@ -119,14 +121,14 @@ export function RevealSection() {
               key={step.bgTitle}
               className="absolute inset-0 flex items-end justify-start pb-28 md:pb-24 px-6 md:px-12"
               style={{
-                opacity: useTransform(frameIndex, [index - 0.55, index, index + 0.55], [0, 1, 0]),
+                opacity: useTransform(frameIndex, [index - STEP_OPACITY_SPAN, index, index + STEP_OPACITY_SPAN], [0, 1, 0]),
                 y: titleY,
               }}
             >
               <div>
                 <motion.h2
                   style={{
-                    opacity: useTransform(frameIndex, [index - 0.45, index, index + 0.45], [0.4, 1, 0.4]),
+                    opacity: useTransform(frameIndex, [index - STEP_OPACITY_SPAN, index, index + STEP_OPACITY_SPAN], [0.22, 1, 0.22]),
                   }}
                   className="text-[17vw] md:text-[14vw] lg:text-[12vw] font-serif font-bold text-charcoal-foreground uppercase tracking-tight leading-[0.82] whitespace-nowrap"
                 >
@@ -140,7 +142,7 @@ export function RevealSection() {
         {/* Frame images container */}
         <motion.div
           style={{ y: productY }}
-          className="relative z-20 w-[78vw] md:w-[54vw] lg:w-[45vw] aspect-square"
+          className="relative z-20 w-[94vw] md:w-[86vw] lg:w-[78vw] xl:w-[72vw] aspect-[16/6]"
         >
           {FRAMES.map((label, index) => (
             <motion.div
@@ -149,7 +151,7 @@ export function RevealSection() {
               style={{
                 opacity: useTransform(
                   frameIndex,
-                  [index - 0.5, index, index + 0.5],
+                  [index - FRAME_OPACITY_SPAN, index, index + FRAME_OPACITY_SPAN],
                   [0, 1, 0]
                 ),
               }}
@@ -172,7 +174,7 @@ export function RevealSection() {
             <motion.div
               key={step.caption}
               style={{
-                opacity: useTransform(frameIndex, [index - 0.45, index, index + 0.45], [0, 1, 0]),
+                opacity: useTransform(frameIndex, [index - STEP_OPACITY_SPAN, index, index + STEP_OPACITY_SPAN], [0, 1, 0]),
                 y: copyBlockY,
               }}
               className={`absolute bottom-0 grid grid-cols-12 gap-4 md:gap-6 ${
@@ -181,20 +183,22 @@ export function RevealSection() {
                   : "left-6 md:left-[30vw] right-6 md:right-12 items-center"
               }`}
             >
-              <motion.div
-                style={{ y: centerCopyY }}
-                className={`col-span-12 ${step.placement === "center" ? "md:col-span-6" : "md:col-span-5"} max-w-md`}
-              >
-                <p className="text-sm md:text-base uppercase tracking-[0.14em] text-charcoal-foreground/86 mb-2">{step.caption}</p>
-                <p className="whitespace-pre-line text-base md:text-lg text-charcoal-foreground/96 leading-[1.45]">
-                  {step.centerDescription}
-                </p>
-              </motion.div>
+              {step.caption !== "Ready to cook" ? (
+                <motion.div
+                  style={{ y: centerCopyY }}
+                  className={`col-span-12 ${step.placement === "center" ? "md:col-span-6" : "md:col-span-5"} max-w-lg rounded-md bg-charcoal/28 px-3 py-2 backdrop-blur-[2px]`}
+                >
+                  <p className="text-sm md:text-base uppercase tracking-[0.14em] text-charcoal-foreground mb-2">{step.caption}</p>
+                  <p className="whitespace-pre-line text-base md:text-[1.08rem] text-charcoal-foreground leading-[1.45]">
+                    {step.centerDescription}
+                  </p>
+                </motion.div>
+              ) : null}
               <motion.div
                 style={{ y: rightCopyY }}
-                className={`hidden md:block ${step.placement === "center" ? "md:col-span-3 md:justify-self-center" : "md:col-span-4 md:justify-self-start"} max-w-sm`}
+                className={`hidden md:block ${step.placement === "center" ? "md:col-span-3 md:justify-self-center" : "md:col-span-4 md:justify-self-start"} ${step.caption === "Ready to cook" ? "md:translate-x-[280px]" : ""} max-w-sm rounded-md bg-charcoal/24 px-3 py-2 backdrop-blur-[2px]`}
               >
-                <p className="text-base text-charcoal-foreground/88 leading-relaxed">{step.rightDescription}</p>
+                <p className="whitespace-pre-line text-base md:text-[1.05rem] text-charcoal-foreground leading-relaxed">{step.rightDescription}</p>
                 {step.cta && step.placement === "rightCenter" ? (
                   <button className="mt-5 px-6 py-3 rounded-full bg-primary text-primary-foreground text-xs md:text-sm font-semibold uppercase tracking-wide hover:bg-primary/90 transition-colors">
                     {step.cta}
