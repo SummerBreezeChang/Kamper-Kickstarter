@@ -101,7 +101,7 @@ export function RevealSection() {
     <section 
       ref={containerRef} 
       id="reveal" 
-      className="relative -mt-[8vh] md:-mt-[10vh] h-[calc(620vh+24px)] bg-charcoal text-charcoal-foreground"
+      className="relative h-[calc(620vh+24px)] bg-transparent text-charcoal-foreground"
     >
       <div className="sticky top-0 h-screen overflow-hidden flex items-center justify-center relative">
         <div className="absolute inset-0 z-0">

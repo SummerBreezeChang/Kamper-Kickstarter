@@ -48,7 +48,7 @@ export function Hero() {
   return (
     <section 
       id="hero"
-      className="relative min-h-[calc(79vh+16px)] md:min-h-[calc(83vh+16px)] flex flex-col bg-charcoal text-charcoal-foreground"
+      className="relative min-h-screen flex flex-col bg-charcoal text-charcoal-foreground"
     >
       <div className="absolute inset-0 z-0">
         <Image
@@ -160,7 +160,8 @@ export function Hero() {
           <ImagePlaceholder
             title="Hero Product Shot"
             note="Replace with: Kamper closed frame matching sequence frame 01 angle"
-            className="rounded-xl border-charcoal-foreground/35 bg-black/10 text-charcoal-foreground"
+            showFrame={false}
+            className="rounded-xl border-0 bg-transparent text-charcoal-foreground"
           />
         </div>
       </motion.div>
