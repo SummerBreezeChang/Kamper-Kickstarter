@@ -4,10 +4,11 @@ import { useEffect, useRef, useState } from "react"
 import { motion, useMotionTemplate, useScroll, useTransform } from "framer-motion"
 import Image from "next/image"
 import Link from "next/link"
-import { ImagePlaceholder } from "@/components/kamper/image-placeholder"
 
 const KICKSTARTER_URL = "https://www.kickstarter.com"
 const HERO_BACKGROUND = "/landing-background.png"
+const HERO_PRODUCT_IMAGE = "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/a01-EqQSnPBpFWfbKJe7RyIpPOeJmQEWE9.png"
+
 const leftNav = [
   { label: "Specs", href: "#details" },
   { label: "Use Cases", href: "#lifestyle" },
@@ -30,7 +31,6 @@ export function Hero() {
     const unsubscribe = scrollY.on("change", (currentY) => {
       const delta = currentY - lastScrollY.current
 
-      // Keep nav visible near the top to reduce flicker.
       if (currentY < 24) {
         setIsNavHidden(false)
       } else if (delta > 3) {
@@ -58,7 +58,6 @@ export function Hero() {
           priority
           className="object-cover object-center opacity-62 saturate-[0.8]"
         />
-        {/* Rebuilt green overlay stack */}
         <div className="absolute inset-0 bg-[#2f4f3e]/52" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_20%,rgba(157,196,149,0.26),transparent_34%),radial-gradient(circle_at_82%_68%,rgba(20,38,30,0.35),transparent_40%)]" />
         <div className="absolute inset-0 opacity-20 bg-[url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22200%22 viewBox=%220 0 200 200%22%3E%3Cfilter id=%22n%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.8%22 numOctaves=%223%22/%3E%3C/filter%3E%3Crect width=%22200%22 height=%22200%22 filter=%22url(%23n)%22 opacity=%220.3%22/%3E%3C/svg%3E')]" />
@@ -124,24 +123,24 @@ export function Hero() {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="text-center uppercase leading-none mb-8 mt-0"
         >
-                          <h1 className="w-screen relative left-1/2 -translate-x-1/2 whitespace-nowrap text-[104px] md:text-[180px] lg:text-[260px] font-serif font-bold tracking-tight text-charcoal-foreground leading-[0.9]">
-                            <motion.span
-                              initial={{ opacity: 0.4 }}
-                              animate={{ opacity: 1 }}
-                              transition={{ duration: 0.9, ease: "easeOut", delay: 0.28 }}
-                              className="inline-block mr-[0.22em]"
-                            >
-                              One
-                            </motion.span>
-                            <motion.span
-                              initial={{ opacity: 0.4 }}
-                              animate={{ opacity: 1 }}
-                              transition={{ duration: 0.9, ease: "easeOut", delay: 0.54 }}
-                              className="inline-block"
-                            >
-                              Box
-                            </motion.span>
-                          </h1>
+          <h1 className="w-screen relative left-1/2 -translate-x-1/2 whitespace-nowrap text-[104px] md:text-[180px] lg:text-[260px] font-serif font-bold tracking-tight text-charcoal-foreground leading-[0.9]">
+            <motion.span
+              initial={{ opacity: 0.4 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.9, ease: "easeOut", delay: 0.28 }}
+              className="inline-block mr-[0.22em]"
+            >
+              One
+            </motion.span>
+            <motion.span
+              initial={{ opacity: 0.4 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.9, ease: "easeOut", delay: 0.54 }}
+              className="inline-block"
+            >
+              Box
+            </motion.span>
+          </h1>
           <div className="w-screen relative left-1/2 -translate-x-1/2 mt-3 mb-3 border-b-2 border-dotted border-charcoal-foreground/65" />
           <p className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold tracking-tight text-charcoal-foreground/92">
             Full Kitchen
@@ -149,19 +148,21 @@ export function Hero() {
         </motion.div>
       </div>
 
-      {/* Product image */}
+      {/* Product image - compact closed state */}
       <motion.div
         initial={{ opacity: 0, y: 60 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1, delay: 0.6 }}
         className="relative z-10 w-full px-6 md:px-12 pb-1"
       >
-        <div className="relative mx-auto w-[94vw] md:w-[86vw] lg:w-[78vw] xl:w-[72vw] aspect-[16/6]">
-          <ImagePlaceholder
-            title="Hero Product Shot"
-            note="Replace with: Kamper closed frame matching sequence frame 01 angle"
-            showFrame={false}
-            className="rounded-xl border-0 bg-transparent text-charcoal-foreground"
+        <div className="relative mx-auto w-[60vw] md:w-[45vw] lg:w-[35vw] xl:w-[28vw] aspect-square flex items-center justify-center">
+          <Image
+            src={HERO_PRODUCT_IMAGE}
+            alt="Kamper compact cooking system - closed"
+            width={600}
+            height={600}
+            className="object-contain drop-shadow-2xl"
+            priority
           />
         </div>
       </motion.div>
