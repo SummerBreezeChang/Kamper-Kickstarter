@@ -117,8 +117,8 @@ export function RevealSection() {
               <Image
                 src={frame.src}
                 alt={frame.caption}
-                width={900}
-                height={900}
+                width={1400}
+                height={1400}
                 className="object-contain drop-shadow-2xl"
                 priority={index === 0}
               />

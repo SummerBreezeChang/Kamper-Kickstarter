@@ -159,8 +159,8 @@ export function Hero() {
           <Image
             src={HERO_PRODUCT_IMAGE}
             alt="Kamper compact cooking system - closed"
-            width={600}
-            height={600}
+            width={1000}
+            height={1000}
             className="object-contain drop-shadow-2xl"
             priority
           />
