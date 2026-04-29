@@ -39,9 +39,9 @@ function LifestyleCard({
     offset: ["start end", "end start"],
   })
 
-  // Consistent motion for all cards: left-tilted -> vertical -> slight left tilt.
-  const rotate = useTransform(scrollYProgress, [0, 0.55, 1], [-6, 0, -2.5])
-  const translateY = useTransform(scrollYProgress, [0, 0.5, 1], [18, 0, -10])
+  // Stronger motion for all cards: left-tilted -> vertical -> slight left tilt.
+  const rotate = useTransform(scrollYProgress, [0, 0.55, 1], [-12, 0, -5])
+  const translateY = useTransform(scrollYProgress, [0, 0.5, 1], [24, 0, -14])
 
   return (
     <motion.div
@@ -68,6 +68,8 @@ function LifestyleCard({
 
       <motion.div
         style={{ rotate, y: translateY }}
+        whileHover={{ scale: 1.03, y: -8 }}
+        transition={{ type: "spring", stiffness: 180, damping: 20 }}
         className="relative aspect-[4/3] overflow-hidden shadow-[0_20px_50px_rgba(42,18,9,0.18)] will-change-transform"
       >
         <ImagePlaceholder
@@ -75,7 +77,7 @@ function LifestyleCard({
           note={setting.image}
           className="rounded-md border-foreground/20 bg-card/70"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/15 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-black/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
       </motion.div>
     </motion.div>
   )

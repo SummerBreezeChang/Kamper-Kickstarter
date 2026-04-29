@@ -4,10 +4,13 @@ import { useEffect, useRef, useState } from "react"
 import { motion, useMotionTemplate, useScroll, useTransform } from "framer-motion"
 import Image from "next/image"
 import Link from "next/link"
-import { ImagePlaceholder } from "@/components/kamper/image-placeholder"
 
 const KICKSTARTER_URL = "https://www.kickstarter.com"
-const HERO_BACKGROUND = "/landing-background.png"
+const HERO_HEADING_COLOR = "#F4F4CC"
+const HERO_SEQUENCE_FRAMES = ["/luma/a01.png", "/luma/a02.png", "/luma/a03.png", "/luma/a04.png", "/luma/a05.png"]
+const HERO_FRAME_POSITIONS = ["53% center", "51% center", "50% center", "50% center", "50% center"]
+const SCROLL_SEGMENT_PX = 405
+const HOLD_RATIO = 0.72
 const leftNav = [
   { label: "Specs", href: "#details" },
   { label: "Use Cases", href: "#lifestyle" },
@@ -25,6 +28,13 @@ export function Hero() {
   const navBorderOpacity = useTransform(scrollY, [0, 160], [0.35, 0.95])
   const navBackground = useMotionTemplate`rgba(47, 79, 62, ${navOpacity})`
   const navBorder = useMotionTemplate`rgba(244, 248, 236, ${navBorderOpacity})`
+  // Midpoint timing between 540px and 270px per frame segment.
+  const scrollPixels = useTransform(scrollY, [0, SCROLL_SEGMENT_PX * 4], [0, SCROLL_SEGMENT_PX * 4])
+  const imageY = useTransform(
+    scrollPixels,
+    [0, SCROLL_SEGMENT_PX, SCROLL_SEGMENT_PX * 2, SCROLL_SEGMENT_PX * 3, SCROLL_SEGMENT_PX * 4],
+    [0, SCROLL_SEGMENT_PX, SCROLL_SEGMENT_PX * 2, SCROLL_SEGMENT_PX * 3, SCROLL_SEGMENT_PX * 4]
+  )
 
   useEffect(() => {
     const unsubscribe = scrollY.on("change", (currentY) => {
@@ -46,24 +56,7 @@ export function Hero() {
   }, [scrollY])
 
   return (
-    <section 
-      id="hero"
-      className="relative min-h-screen flex flex-col bg-charcoal text-charcoal-foreground"
-    >
-      <div className="absolute inset-0 z-0">
-        <Image
-          src={HERO_BACKGROUND}
-          alt=""
-          fill
-          priority
-          className="object-cover object-center opacity-62 saturate-[0.8]"
-        />
-        {/* Rebuilt green overlay stack */}
-        <div className="absolute inset-0 bg-[#2f4f3e]/52" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_20%,rgba(157,196,149,0.26),transparent_34%),radial-gradient(circle_at_82%_68%,rgba(20,38,30,0.35),transparent_40%)]" />
-        <div className="absolute inset-0 opacity-20 bg-[url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22200%22 viewBox=%220 0 200 200%22%3E%3Cfilter id=%22n%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.8%22 numOctaves=%223%22/%3E%3C/filter%3E%3Crect width=%22200%22 height=%22200%22 filter=%22url(%23n)%22 opacity=%220.3%22/%3E%3C/svg%3E')]" />
-      </div>
-
+    <section id="hero" className="relative min-h-screen flex flex-col bg-transparent text-charcoal-foreground">
       {/* Navigation */}
       <motion.nav
         className="fixed top-0 left-0 right-0 z-50"
@@ -124,7 +117,10 @@ export function Hero() {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="text-center uppercase leading-none mb-8 mt-0"
         >
-                          <h1 className="w-screen relative left-1/2 -translate-x-1/2 whitespace-nowrap text-[104px] md:text-[180px] lg:text-[260px] font-serif font-bold tracking-tight text-charcoal-foreground leading-[0.9]">
+                          <h1
+                            className="w-screen relative left-1/2 -translate-x-1/2 whitespace-nowrap text-[104px] md:text-[180px] lg:text-[260px] font-serif font-bold tracking-tight leading-[0.9]"
+                            style={{ color: HERO_HEADING_COLOR }}
+                          >
                             <motion.span
                               initial={{ opacity: 0.4 }}
                               animate={{ opacity: 1 }}
@@ -143,7 +139,7 @@ export function Hero() {
                             </motion.span>
                           </h1>
           <div className="w-screen relative left-1/2 -translate-x-1/2 mt-3 mb-3 border-b-2 border-dotted border-charcoal-foreground/65" />
-          <p className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold tracking-tight text-charcoal-foreground/92">
+          <p className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold tracking-tight" style={{ color: HERO_HEADING_COLOR }}>
             Full Kitchen
           </p>
         </motion.div>
@@ -156,14 +152,39 @@ export function Hero() {
         transition={{ duration: 1, delay: 0.6 }}
         className="relative z-10 w-full px-6 md:px-12 pb-1"
       >
-        <div className="relative mx-auto w-[94vw] md:w-[86vw] lg:w-[78vw] xl:w-[72vw] aspect-[16/6]">
-          <ImagePlaceholder
-            title="Hero Product Shot"
-            note="Replace with: Kamper closed frame matching sequence frame 01 angle"
-            showFrame={false}
-            className="rounded-xl border-0 bg-transparent text-charcoal-foreground"
-          />
-        </div>
+        <motion.div
+          style={{ y: imageY }}
+          className="relative mx-auto w-[94vw] md:w-[86vw] lg:w-[78vw] xl:w-[72vw] aspect-[16/6]"
+        >
+          {HERO_SEQUENCE_FRAMES.map((src, index) => (
+            <motion.div
+              key={src}
+              className="absolute inset-0"
+              style={{
+                y: index === 0 ? imageY : 0,
+                opacity: useTransform(
+                  scrollPixels,
+                  [
+                    Math.max(0, index * SCROLL_SEGMENT_PX - SCROLL_SEGMENT_PX * 0.28),
+                    index * SCROLL_SEGMENT_PX,
+                    index * SCROLL_SEGMENT_PX + SCROLL_SEGMENT_PX * HOLD_RATIO,
+                    (index + 1) * SCROLL_SEGMENT_PX,
+                  ],
+                  [0, 1, 1, 0]
+                ),
+              }}
+            >
+              <Image
+                src={src}
+                alt={`Kamper hero sequence frame ${index + 1}`}
+                fill
+                priority={index === 0}
+                className="object-contain scale-[3.6]"
+                style={{ objectPosition: HERO_FRAME_POSITIONS[index] ?? "50% center" }}
+              />
+            </motion.div>
+          ))}
+        </motion.div>
       </motion.div>
 
       {/* Bottom left CTA */}
@@ -189,21 +210,6 @@ export function Hero() {
         </Link>
       </motion.div>
 
-      {/* Scroll indicator */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.2 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2"
-      >
-        <motion.div
-          animate={{ y: [0, 8, 0] }}
-          transition={{ duration: 1.5, repeat: Infinity }}
-          className="w-6 h-10 rounded-full border-2 border-charcoal-foreground/45 flex items-start justify-center p-2"
-        >
-          <div className="w-1 h-2 rounded-full bg-charcoal-foreground/70" />
-        </motion.div>
-      </motion.div>
     </section>
   )
 }

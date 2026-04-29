@@ -24,11 +24,22 @@ export default function KamperPage() {
   return (
     <main className="bg-background">
       <FloatingActions />
-      {/* Section 1: Hero */}
-      <Hero />
-      
-      {/* Section 2: The Reveal - scroll-triggered unfolding animation */}
-      <RevealSection />
+      {/* Section 1 + 2 share one continuous background and overlay */}
+      <section className="relative">
+        <div
+          className="pointer-events-none absolute inset-0 z-0 bg-cover bg-center"
+          style={{ backgroundImage: "url('/landing-background.png')" }}
+        />
+        <div className="pointer-events-none absolute inset-0 z-0 bg-[#08110c]/78" />
+        <div className="pointer-events-none absolute inset-0 z-0 bg-[#2f4f3e]/55" />
+        <div className="pointer-events-none absolute inset-0 z-0 bg-[radial-gradient(circle_at_80%_20%,rgba(170,210,160,0.18),transparent_30%),radial-gradient(circle_at_25%_75%,rgba(0,0,0,0.26),transparent_35%)]" />
+        <div className="pointer-events-none absolute inset-0 z-0 opacity-15 bg-[url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22200%22 viewBox=%220 0 200 200%22%3E%3Cfilter id=%22n%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.85%22 numOctaves=%223%22/%3E%3C/filter%3E%3Crect width=%22200%22 height=%22200%22 filter=%22url(%23n)%22 opacity=%220.25%22/%3E%3C/svg%3E')]" />
+
+        <div className="relative z-10">
+          <Hero />
+          <RevealSection />
+        </div>
+      </section>
       
       {/* Section 3: Why Cook Outside - dark charcoal section */}
       <motion.div {...sectionReveal}>
