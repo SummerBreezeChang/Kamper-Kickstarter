@@ -1,0 +1,2 @@
+{"sessionId":"bd84c7","runId":"pre-fix","hypothesisId":"H1","location":"components/kamper/reveal-section.tsx:22","message":"RevealSection mounted and parsed","data":{"frameCount":5},"timestamp":1777432072909}
+{"sessionId":"bd84c7","runId":"pre-fix","hypothesisId":"H4","location":"components/kamper/reveal-section.tsx:41","message":"Heading threshold reached","data":{"scrollProgress":0.56},"timestamp":1777432352754}
