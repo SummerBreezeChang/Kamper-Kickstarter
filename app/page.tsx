@@ -1,7 +1,6 @@
  "use client"
 
-import { Hero } from "@/components/kamper/hero"
-import { RevealSection } from "@/components/kamper/reveal-section"
+import { HeroScroll } from "@/components/kamper/hero-scroll"
 import { WhySection } from "@/components/kamper/why-section"
 import { ProductDetails } from "@/components/kamper/product-details"
 import { SettingsSection } from "@/components/kamper/settings-section"
@@ -24,11 +23,8 @@ export default function KamperPage() {
   return (
     <main className="bg-background">
       <FloatingActions />
-      {/* Section 1: Hero */}
-      <Hero />
-      
-      {/* Section 2: The Reveal - scroll-triggered unfolding animation */}
-      <RevealSection />
+      {/* Section 1 & 2: Combined Hero + Product Scroll Sequence */}
+      <HeroScroll />
       
       {/* Section 3: Why Cook Outside - dark charcoal section */}
       <motion.div {...sectionReveal}>
