@@ -18,7 +18,7 @@ const recipeCards = [
     time: "25 min",
     description: "A hearty one-pot chili with beans, vegetables, and ground protein. Easy to prep, easy to serve.",
     note: "Replace with camp chili in pot image",
-    image: null,
+    image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/g02.png-oXdgw70nE8dpJGmtnPzqmJY8QmR9nd.jpeg",
   },
   {
     title: "Veggie Rice Skillet",
