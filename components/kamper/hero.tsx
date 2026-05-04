@@ -71,14 +71,18 @@ export function Hero() {
     ],
     [0, 1, 1, 0]
   )
-  // "All you need in one box" tagline appears when the fourth frame (index 3) is in view
+  // "All you need in one box" tagline appears when the fourth frame (index 3) is in view,
+  // then fades out as the user continues scrolling past the hero section.
+  // Uses scrollY directly (instead of scrollPixels) so it can fade out beyond the clamped range.
   const allInOneOpacity = useTransform(
-    scrollPixels,
+    scrollY,
     [
       SCROLL_SEGMENT_PX * 3 - SCROLL_SEGMENT_PX * 0.28,
       SCROLL_SEGMENT_PX * 3,
+      SCROLL_SEGMENT_PX * 3 + SCROLL_SEGMENT_PX * HOLD_RATIO,
+      SCROLL_SEGMENT_PX * 4,
     ],
-    [0, 1]
+    [0, 1, 1, 0]
   )
 
   useEffect(() => {
@@ -263,7 +267,7 @@ export function Hero() {
         className="fixed z-30 bottom-16 md:bottom-20 left-1/2 -translate-x-1/2 pointer-events-none"
       >
         <p
-          className="text-3xl md:text-5xl lg:text-6xl font-serif font-bold uppercase tracking-tight leading-none text-center whitespace-nowrap"
+          className="text-5xl md:text-7xl lg:text-8xl font-serif font-bold uppercase tracking-tight leading-none text-center whitespace-nowrap"
           style={{ color: HERO_HEADING_COLOR }}
         >
           All You Need in One Box
