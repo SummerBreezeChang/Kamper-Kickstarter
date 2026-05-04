@@ -182,7 +182,7 @@ export function Hero() {
                 alt={`Kamper hero sequence frame ${index + 1}`}
                 fill
                 priority={index === 0}
-                className="object-contain scale-[3.6]"
+                className={`object-contain ${index === 0 ? "scale-[2.88]" : "scale-[3.6]"}`}
                 style={{ objectPosition: HERO_FRAME_POSITIONS[index] ?? "50% center" }}
               />
             </motion.div>
