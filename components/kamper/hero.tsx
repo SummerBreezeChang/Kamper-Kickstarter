@@ -9,7 +9,7 @@ const KICKSTARTER_URL = "https://www.kickstarter.com"
 const HERO_HEADING_COLOR = "#F4F4CC"
 const HERO_SEQUENCE_FRAMES = [
   "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/a01-PusVFJuPGEpBL9c1Fz6CQ7FHKsrc3I.png",
-  "/luma/a02.png",
+  "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/a02-LP6aL5042HP2uXecCrkFxjCbp63ham.png",
   "/luma/a03.png",
   "/luma/a04.png",
   "/luma/a05.png",
@@ -182,7 +182,7 @@ export function Hero() {
                 alt={`Kamper hero sequence frame ${index + 1}`}
                 fill
                 priority={index === 0}
-                className={`object-contain ${index === 0 ? "scale-[2.88]" : "scale-[3.6]"}`}
+                className={`object-contain ${index === 0 || index === 1 ? "scale-[2.88]" : "scale-[3.6]"}`}
                 style={{ objectPosition: HERO_FRAME_POSITIONS[index] ?? "50% center" }}
               />
             </motion.div>
