@@ -203,18 +203,16 @@ export function WhySection() {
             ))}
           </div>
 
-          {/* Right full-half video panel - stays fixed */}
-          <div className="relative h-full min-h-[45vh] overflow-hidden bg-secondary/30 flex items-center justify-center">
-            <div className="relative h-full w-full max-w-[56.25vh] mx-auto">
-              <video
-                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/b01-QdiQCwKv2HELYQzLq0Xh46SasSPMgz.mp4"
-                autoPlay
-                muted
-                loop
-                playsInline
-                className="h-full w-full object-contain"
-              />
-            </div>
+          {/* Right full-half video panel - stays fixed, fills the panel */}
+          <div className="relative h-full min-h-[45vh] overflow-hidden bg-secondary/30">
+            <video
+              src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/b01-QdiQCwKv2HELYQzLq0Xh46SasSPMgz.mp4"
+              autoPlay
+              muted
+              loop
+              playsInline
+              className="absolute inset-0 h-full w-full object-cover"
+            />
           </div>
         </div>
       </div>
