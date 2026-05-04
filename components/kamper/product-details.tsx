@@ -1,7 +1,7 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { ImagePlaceholder } from "@/components/kamper/image-placeholder"
+import Image from "next/image"
 import { WordOpacityHeading } from "@/components/kamper/word-opacity-heading"
 
 const specs = [
@@ -81,10 +81,13 @@ export function ProductDetails() {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="relative"
           >
-            <div className="relative aspect-square rounded-2xl overflow-hidden bg-background">
-              <ImagePlaceholder
-                title="Product Detail Close-up"
-                note="Replace with burner + bamboo detail image or short loop"
+            <div className="relative aspect-square rounded-2xl overflow-hidden bg-white">
+              <Image
+                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/c01-nZS5VXgZlsz47GsrPLsjCJupf8jJBe.png"
+                alt="KAMPER product detail showing cooking box, prep table with bamboo cutting board, griddle and accessory trays"
+                fill
+                className="object-contain p-4"
+                sizes="(max-width: 1024px) 100vw, 50vw"
               />
             </div>
             
