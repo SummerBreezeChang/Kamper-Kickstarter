@@ -47,7 +47,6 @@ export function WhySection() {
     offset: ["start start", "end end"],
   })
   const stepIndex = useTransform(scrollYProgress, [0.08, 0.92], [0, STORY_STEPS.length - 1])
-  const stripY = useTransform(stepIndex, [0, 1, 2], ["0%", "-26%", "-52%"])
   useMotionValueEvent(stepIndex, "change", (value) => {
     setStepFloat(value)
   })
@@ -204,19 +203,18 @@ export function WhySection() {
             ))}
           </div>
 
-          {/* Right full-half video panel */}
-          <div className="relative h-full min-h-[45vh] overflow-hidden bg-secondary/30">
-            <motion.div style={{ y: stripY }} className="absolute inset-0 h-[180%] w-full">
+          {/* Right full-half video panel - stays fixed */}
+          <div className="relative h-full min-h-[45vh] overflow-hidden bg-secondary/30 flex items-center justify-center">
+            <div className="relative h-full w-full max-w-[56.25vh] mx-auto">
               <video
                 src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/b01-QdiQCwKv2HELYQzLq0Xh46SasSPMgz.mp4"
                 autoPlay
                 muted
                 loop
                 playsInline
-                className="h-full w-full object-cover object-top"
+                className="h-full w-full object-contain"
               />
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_22%_26%,rgba(255,255,255,0.12),transparent_34%),radial-gradient(circle_at_80%_72%,rgba(0,0,0,0.22),transparent_38%)]" />
-            </motion.div>
+            </div>
           </div>
         </div>
       </div>
