@@ -2,6 +2,7 @@
 
 import { useRef } from "react"
 import { motion, useScroll, useTransform } from "framer-motion"
+import Image from "next/image"
 import { ImagePlaceholder } from "@/components/kamper/image-placeholder"
 import { WordOpacityHeading } from "@/components/kamper/word-opacity-heading"
 
@@ -10,19 +11,19 @@ const settings = [
     number: "01",
     title: "Beach",
     description: "Golden hour, sand between your toes",
-    image: "Replace with beach lifestyle image"
+    image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/a1.png-LXv1J4JSzBVJzvGfeKaNa45yHKVQLn.jpeg"
   },
   {
     number: "02",
     title: "Campsite",
     description: "Morning light, fresh mountain air",
-    image: "Replace with campsite lifestyle image"
+    image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/d02.png-PYRrg0YxAc23hN7DHsL48XBMVxgwBQ.jpeg"
   },
   {
     number: "03",
-    title: "Backyard",
-    description: "Evening gathering, string lights",
-    image: "Replace with backyard lifestyle image"
+    title: "City Balcony",
+    description: "Urban views, rooftop dining",
+    image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/d03.png-ogjOPkdN50N2oGSypMldIz8ubF9BNw.jpeg"
   }
 ]
 
@@ -42,6 +43,8 @@ function LifestyleCard({
   // Stronger motion for all cards: left-tilted -> vertical -> slight left tilt.
   const rotate = useTransform(scrollYProgress, [0, 0.55, 1], [-12, 0, -5])
   const translateY = useTransform(scrollYProgress, [0, 0.5, 1], [24, 0, -14])
+
+  const isImageUrl = typeof setting.image === 'string' && setting.image.startsWith('http')
 
   return (
     <motion.div
@@ -70,14 +73,26 @@ function LifestyleCard({
         style={{ rotate, y: translateY }}
         whileHover={{ scale: 1.03, y: -8 }}
         transition={{ type: "spring", stiffness: 180, damping: 20 }}
-        className="relative aspect-[4/3] overflow-hidden shadow-[0_20px_50px_rgba(42,18,9,0.18)] will-change-transform"
+        className="relative aspect-[4/3] overflow-hidden shadow-[0_20px_50px_rgba(42,18,9,0.18)] will-change-transform rounded-md"
       >
-        <ImagePlaceholder
-          title={setting.title}
-          note={setting.image}
-          className="rounded-md border-foreground/20 bg-card/70"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-black/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+        {isImageUrl ? (
+          <>
+            <Image
+              src={setting.image}
+              alt={setting.title}
+              fill
+              className="object-cover"
+              sizes="(max-width: 768px) 100vw, 520px"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-black/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+          </>
+        ) : (
+          <ImagePlaceholder
+            title={setting.title}
+            note={setting.image}
+            className="rounded-md border-foreground/20 bg-card/70"
+          />
+        )}
       </motion.div>
     </motion.div>
   )

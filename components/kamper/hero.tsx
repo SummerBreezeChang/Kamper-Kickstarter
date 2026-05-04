@@ -9,7 +9,7 @@ const KICKSTARTER_URL = "https://www.kickstarter.com"
 const HERO_HEADING_COLOR = "#F4F4CC"
 const HERO_SEQUENCE_FRAMES = ["/luma/a01.png", "/luma/a02.png", "/luma/a03.png", "/luma/a04.png", "/luma/a05.png"]
 const HERO_FRAME_POSITIONS = ["53% center", "51% center", "50% center", "50% center", "50% center"]
-const SCROLL_SEGMENT_PX = 405
+const SCROLL_SEGMENT_PX = 280
 const HOLD_RATIO = 0.72
 const leftNav = [
   { label: "Specs", href: "#details" },
@@ -28,7 +28,6 @@ export function Hero() {
   const navBorderOpacity = useTransform(scrollY, [0, 160], [0.35, 0.95])
   const navBackground = useMotionTemplate`rgba(47, 79, 62, ${navOpacity})`
   const navBorder = useMotionTemplate`rgba(244, 248, 236, ${navBorderOpacity})`
-  // Midpoint timing between 540px and 270px per frame segment.
   const scrollPixels = useTransform(scrollY, [0, SCROLL_SEGMENT_PX * 4], [0, SCROLL_SEGMENT_PX * 4])
   const imageY = useTransform(
     scrollPixels,
@@ -40,7 +39,6 @@ export function Hero() {
     const unsubscribe = scrollY.on("change", (currentY) => {
       const delta = currentY - lastScrollY.current
 
-      // Keep nav visible near the top to reduce flicker.
       if (currentY < 24) {
         setIsNavHidden(false)
       } else if (delta > 3) {
@@ -117,27 +115,27 @@ export function Hero() {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="text-center uppercase leading-none mb-8 mt-0"
         >
-                          <h1
-                            className="w-screen relative left-1/2 -translate-x-1/2 whitespace-nowrap text-[104px] md:text-[180px] lg:text-[260px] font-serif font-bold tracking-tight leading-[0.9]"
-                            style={{ color: HERO_HEADING_COLOR }}
-                          >
-                            <motion.span
-                              initial={{ opacity: 0.4 }}
-                              animate={{ opacity: 1 }}
-                              transition={{ duration: 0.9, ease: "easeOut", delay: 0.28 }}
-                              className="inline-block mr-[0.22em]"
-                            >
-                              One
-                            </motion.span>
-                            <motion.span
-                              initial={{ opacity: 0.4 }}
-                              animate={{ opacity: 1 }}
-                              transition={{ duration: 0.9, ease: "easeOut", delay: 0.54 }}
-                              className="inline-block"
-                            >
-                              Box
-                            </motion.span>
-                          </h1>
+          <h1
+            className="w-screen relative left-1/2 -translate-x-1/2 whitespace-nowrap text-[104px] md:text-[180px] lg:text-[260px] font-serif font-bold tracking-tight leading-[0.9]"
+            style={{ color: HERO_HEADING_COLOR }}
+          >
+            <motion.span
+              initial={{ opacity: 0.4 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.9, ease: "easeOut", delay: 0.28 }}
+              className="inline-block mr-[0.22em]"
+            >
+              One
+            </motion.span>
+            <motion.span
+              initial={{ opacity: 0.4 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.9, ease: "easeOut", delay: 0.54 }}
+              className="inline-block"
+            >
+              Box
+            </motion.span>
+          </h1>
           <div className="w-screen relative left-1/2 -translate-x-1/2 mt-3 mb-3 border-b-2 border-dotted border-charcoal-foreground/65" />
           <p className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold tracking-tight" style={{ color: HERO_HEADING_COLOR }}>
             Full Kitchen
@@ -161,7 +159,6 @@ export function Hero() {
               key={src}
               className="absolute inset-0"
               style={{
-                y: index === 0 ? imageY : 0,
                 opacity: useTransform(
                   scrollPixels,
                   [
@@ -209,7 +206,6 @@ export function Hero() {
           </svg>
         </Link>
       </motion.div>
-
     </section>
   )
 }

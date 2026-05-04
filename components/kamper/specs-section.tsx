@@ -120,12 +120,12 @@ export function SpecsSection() {
             style={{ x: imageX }}
             className="sticky top-32"
           >
-            <div className="relative aspect-square rounded-3xl overflow-hidden shadow-2xl">
+            <div className="relative aspect-square rounded-3xl overflow-hidden shadow-2xl bg-white">
               <Image
-                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/layout.png-rWXol50Olre9nm6m6mEnJBO3qvSMa2.jpeg"
-                alt="KAMPER with all accessories"
+                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/c01-8ulclPYiQfXWzQSgM1VJwGgggDtoeO.png"
+                alt="KAMPER product detail showing cooking box, prep table, griddle and accessories"
                 fill
-                className="object-cover"
+                className="object-contain p-8"
                 sizes="(max-width: 1024px) 100vw, 50vw"
               />
             </div>

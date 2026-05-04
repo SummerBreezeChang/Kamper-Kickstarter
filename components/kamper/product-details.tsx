@@ -1,7 +1,7 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { ImagePlaceholder } from "@/components/kamper/image-placeholder"
+import Image from "next/image"
 import { WordOpacityHeading } from "@/components/kamper/word-opacity-heading"
 
 const specs = [
@@ -81,35 +81,15 @@ export function ProductDetails() {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="relative"
           >
-            <div className="relative aspect-square rounded-2xl overflow-hidden bg-background">
-              <ImagePlaceholder
-                title="Product Detail Close-up"
-                note="Replace with burner + bamboo detail image or short loop"
+            <div className="relative aspect-square rounded-2xl overflow-hidden bg-white">
+              <Image
+                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/c01-nZS5VXgZlsz47GsrPLsjCJupf8jJBe.png"
+                alt="KAMPER product detail showing cooking box, prep table with bamboo cutting board, griddle and accessory trays"
+                fill
+                className="object-cover scale-125"
+                sizes="(max-width: 1024px) 100vw, 50vw"
               />
             </div>
-            
-            {/* Floating detail cards */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: false }}
-              transition={{ delay: 0.5 }}
-              className="absolute -bottom-6 -left-6 bg-background p-4 rounded-xl shadow-lg"
-            >
-              <p className="text-xs text-foreground/60 uppercase mb-1">Material</p>
-              <p className="font-semibold text-foreground">Aluminum + Bamboo</p>
-            </motion.div>
-            
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: false }}
-              transition={{ delay: 0.6 }}
-              className="absolute -top-4 -right-4 bg-[#f3d7d4] text-[#3a2a28] p-4 rounded-xl"
-            >
-              <p className="text-xs uppercase mb-1">Power</p>
-              <p className="font-bold text-2xl">15K BTU</p>
-            </motion.div>
           </motion.div>
         </div>
       </div>

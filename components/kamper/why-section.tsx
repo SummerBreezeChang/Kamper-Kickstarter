@@ -2,7 +2,6 @@
 
 import { useRef, useState } from "react"
 import { motion, useMotionValueEvent, useScroll, useTransform } from "framer-motion"
-import Image from "next/image"
 
 const STORY_STEPS = [
   {
@@ -48,7 +47,6 @@ export function WhySection() {
     offset: ["start start", "end end"],
   })
   const stepIndex = useTransform(scrollYProgress, [0.08, 0.92], [0, STORY_STEPS.length - 1])
-  const stripY = useTransform(stepIndex, [0, 1, 2], ["0%", "-26%", "-52%"])
   useMotionValueEvent(stepIndex, "change", (value) => {
     setStepFloat(value)
   })
@@ -205,20 +203,16 @@ export function WhySection() {
             ))}
           </div>
 
-          {/* Right full-half image panel */}
+          {/* Right full-half video panel - stays fixed, fills the panel */}
           <div className="relative h-full min-h-[45vh] overflow-hidden bg-secondary/30">
-            <motion.div style={{ y: stripY }} className="absolute inset-0 h-[180%] w-full">
-              <Image
-                src="/luma/why-story-strip.webp"
-                alt="KAMPER lifestyle stitched strip"
-                fill
-                className="object-cover object-top"
-              />
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_22%_26%,rgba(255,255,255,0.12),transparent_34%),radial-gradient(circle_at_80%_72%,rgba(0,0,0,0.22),transparent_38%)]" />
-            </motion.div>
-            <div className="absolute left-6 right-6 top-6 rounded-md border border-charcoal-foreground/35 bg-charcoal/35 px-4 py-3 text-[11px] uppercase tracking-[0.13em] text-charcoal-foreground/90">
-              Replace with one stitched long lifestyle image: <span className="font-semibold">`/public/luma/why-story-strip.webp`</span>
-            </div>
+            <video
+              src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/b01-QdiQCwKv2HELYQzLq0Xh46SasSPMgz.mp4"
+              autoPlay
+              muted
+              loop
+              playsInline
+              className="absolute inset-0 h-full w-full object-cover"
+            />
           </div>
         </div>
       </div>

@@ -1,8 +1,8 @@
 "use client"
 
 import { motion } from "framer-motion"
+import Image from "next/image"
 import Link from "next/link"
-import { ImagePlaceholder } from "@/components/kamper/image-placeholder"
 import { WordOpacityHeading } from "@/components/kamper/word-opacity-heading"
 
 const KICKSTARTER_URL = "https://www.kickstarter.com"
@@ -11,12 +11,15 @@ export function FullCtaSection() {
     <section className="relative min-h-screen">
       {/* Background image */}
       <div className="absolute inset-0 z-0">
-        <ImagePlaceholder
-          title="Full CTA Lifestyle Background"
-          note="Replace with wide lifestyle image (someone cooking outdoors)"
-          className="rounded-none border-0 bg-charcoal text-charcoal-foreground"
+        <Image
+          src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/f01.png-rcp2o0twrb9lH2bjdC5cYyJ0wRs722.jpeg"
+          alt="KAMPER cooking system at a forest campsite with prep table of fresh vegetables"
+          fill
+          priority
+          className="object-cover"
+          sizes="100vw"
         />
-        <div className="absolute inset-0 bg-charcoal/70" />
+        <div className="absolute inset-0 bg-charcoal/55" />
       </div>
 
       {/* Content */}
