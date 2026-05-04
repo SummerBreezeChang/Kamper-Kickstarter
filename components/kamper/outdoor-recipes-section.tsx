@@ -2,7 +2,6 @@
 
 import { useRef } from "react"
 import { motion, useScroll, useTransform } from "framer-motion"
-import Image from "next/image"
 import { ImagePlaceholder } from "@/components/kamper/image-placeholder"
 import { WordOpacityHeading } from "@/components/kamper/word-opacity-heading"
 
@@ -11,19 +10,19 @@ const recipeCards = [
     title: "Skillet Lemon Herb Chicken",
     time: "20 min",
     description: "Marinate ahead, sear in one pan, and finish with lemon. Bright flavor, fast cleanup.",
-    image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/g01.png-s0d3IO8007yWnmAsy4vI8EoGRctVQ4.jpeg",
+    note: "Replace with one-pan chicken + herbs image",
   },
   {
     title: "One-Pot Camp Chili",
     time: "25 min",
     description: "A hearty one-pot chili with beans, vegetables, and ground protein. Easy to prep, easy to serve.",
-    image: null,
+    note: "Replace with camp chili in pot image",
   },
   {
     title: "Veggie Rice Skillet",
     time: "18 min",
     description: "Rice, seasonal vegetables, and simple seasoning in one pan. Lightweight, filling, and travel-friendly.",
-    image: null,
+    note: "Replace with veggie rice skillet image",
   },
 ]
 
@@ -71,17 +70,7 @@ export function OutdoorRecipesSection() {
             >
               <div className="p-2">
                 <div className="aspect-[4/3] overflow-hidden">
-                  {card.image ? (
-                    <Image
-                      src={card.image}
-                      alt={card.title}
-                      fill
-                      className="object-cover"
-                      sizes="(max-width: 768px) 100vw, 33vw"
-                    />
-                  ) : (
-                    <ImagePlaceholder title={card.title} note={`Replace with ${card.title.toLowerCase()} image`} className="rounded-none border-secondary-foreground/20 bg-card/60" />
-                  )}
+                  <ImagePlaceholder title={card.title} note={card.note} className="rounded-none border-secondary-foreground/20 bg-card/60" />
                 </div>
               </div>
               <div className="px-4 md:px-5 pb-5">
