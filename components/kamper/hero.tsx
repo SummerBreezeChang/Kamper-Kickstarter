@@ -14,7 +14,7 @@ const HERO_SEQUENCE_FRAMES = [
   "/luma/a05.png",
 ]
 const HERO_FRAME_POSITIONS = ["53% center", "51% center", "50% center", "50% center"]
-const SCROLL_SEGMENT_PX = 280
+const SCROLL_SEGMENT_PX = 392
 const HOLD_RATIO = 0.72
 const leftNav = [
   { label: "Specs", href: "#details" },
