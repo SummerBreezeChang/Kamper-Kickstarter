@@ -11,7 +11,7 @@ const settings = [
     number: "01",
     title: "Beach",
     description: "Golden hour, sand between your toes",
-    image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/a1.png-G55T7NZUZbjo7hVT6ODlNZ4tZF4KCX.jpeg"
+    image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/a1.png-LXv1J4JSzBVJzvGfeKaNa45yHKVQLn.jpeg"
   },
   {
     number: "02",
