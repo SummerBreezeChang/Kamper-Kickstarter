@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
-import { motion, useMotionTemplate, useScroll, useTransform, type MotionValue } from "framer-motion"
+import { motion, useMotionTemplate, useScroll, useTransform } from "framer-motion"
 import Image from "next/image"
 import Link from "next/link"
 
@@ -9,6 +9,8 @@ const KICKSTARTER_URL = "https://www.kickstarter.com"
 const HERO_HEADING_COLOR = "#F4F4CC"
 const HERO_SEQUENCE_FRAMES = ["/luma/a01.png", "/luma/a02.png", "/luma/a03.png", "/luma/a04.png", "/luma/a05.png"]
 const HERO_FRAME_POSITIONS = ["53% center", "51% center", "50% center", "50% center", "50% center"]
+const SCROLL_SEGMENT_PX = 280
+const HOLD_RATIO = 0.72
 const leftNav = [
   { label: "Specs", href: "#details" },
   { label: "Use Cases", href: "#lifestyle" },
@@ -18,75 +20,25 @@ const rightNav = [
   { label: "Get Updates", href: "#subscribe" },
 ]
 
-// Each frame consumes 1/(N) of the scroll progress.
-// Frame i is fully visible at progress = i/(N-1), with crossfade overlap.
-function getFrameOpacityRange(index: number, total: number): [number[], number[]] {
-  const segment = 1 / (total - 1)
-  const center = index * segment
-  const fadeIn = Math.max(0, center - segment * 0.4)
-  const fadeOut = Math.min(1, center + segment * 0.4)
-  // For first frame: visible from 0
-  // For last frame: visible until 1
-  if (index === 0) {
-    return [[0, segment * 0.6, segment], [1, 1, 0]]
-  }
-  if (index === total - 1) {
-    return [[1 - segment, 1 - segment * 0.4, 1], [0, 1, 1]]
-  }
-  return [[fadeIn, center, fadeOut], [0, 1, 0]]
-}
-
-function HeroFrame({
-  src,
-  index,
-  total,
-  scrollProgress,
-  position,
-}: {
-  src: string
-  index: number
-  total: number
-  scrollProgress: MotionValue<number>
-  position: string
-}) {
-  const [inputs, outputs] = getFrameOpacityRange(index, total)
-  const opacity = useTransform(scrollProgress, inputs, outputs)
-  return (
-    <motion.div className="absolute inset-0" style={{ opacity }}>
-      <Image
-        src={src}
-        alt={`Kamper hero sequence frame ${index + 1}`}
-        fill
-        priority={index === 0}
-        className="object-contain scale-[3.6]"
-        style={{ objectPosition: position }}
-      />
-    </motion.div>
-  )
-}
-
 export function Hero() {
-  const heroRef = useRef<HTMLElement>(null)
   const { scrollY } = useScroll()
-  const { scrollYProgress } = useScroll({
-    target: heroRef,
-    offset: ["start start", "end end"],
-  })
   const [isNavHidden, setIsNavHidden] = useState(false)
   const lastScrollY = useRef(0)
   const navOpacity = useTransform(scrollY, [0, 220], [0.08, 0.52])
   const navBorderOpacity = useTransform(scrollY, [0, 160], [0.35, 0.95])
   const navBackground = useMotionTemplate`rgba(47, 79, 62, ${navOpacity})`
   const navBorder = useMotionTemplate`rgba(244, 248, 236, ${navBorderOpacity})`
-
-  // Heading fades out as user scrolls into the reveal sequence
-  const headingOpacity = useTransform(scrollYProgress, [0, 0.08, 0.18], [1, 0.6, 0])
+  const scrollPixels = useTransform(scrollY, [0, SCROLL_SEGMENT_PX * 4], [0, SCROLL_SEGMENT_PX * 4])
+  const imageY = useTransform(
+    scrollPixels,
+    [0, SCROLL_SEGMENT_PX, SCROLL_SEGMENT_PX * 2, SCROLL_SEGMENT_PX * 3, SCROLL_SEGMENT_PX * 4],
+    [0, SCROLL_SEGMENT_PX, SCROLL_SEGMENT_PX * 2, SCROLL_SEGMENT_PX * 3, SCROLL_SEGMENT_PX * 4]
+  )
 
   useEffect(() => {
     const unsubscribe = scrollY.on("change", (currentY) => {
       const delta = currentY - lastScrollY.current
 
-      // Keep nav visible near the top to reduce flicker.
       if (currentY < 24) {
         setIsNavHidden(false)
       } else if (delta > 3) {
@@ -102,12 +54,8 @@ export function Hero() {
   }, [scrollY])
 
   return (
-    <section
-      ref={heroRef}
-      id="hero"
-      className="relative min-h-[260vh] bg-transparent text-charcoal-foreground"
-    >
-      {/* Navigation - fixed to viewport */}
+    <section id="hero" className="relative min-h-screen flex flex-col bg-transparent text-charcoal-foreground">
+      {/* Navigation */}
       <motion.nav
         className="fixed top-0 left-0 right-0 z-50"
         animate={{ y: isNavHidden ? -96 : 0, opacity: isNavHidden ? 0 : 1 }}
@@ -150,100 +98,114 @@ export function Hero() {
         <motion.div className="border-b-2 border-dotted" style={{ borderColor: navBorder }} />
       </motion.nav>
 
-      {/* Sticky pinned content - keeps the product centered as user scrolls through the tall hero */}
-      <div className="sticky top-0 h-screen overflow-hidden">
-        {/* Heading at top - fades out as user scrolls */}
-        <motion.div
-          style={{ opacity: headingOpacity }}
-          className="relative z-20 pt-20 md:pt-24 px-6 text-center"
-        >
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="text-xs md:text-sm tracking-[0.12em] text-charcoal-foreground/85 uppercase mb-1"
-          >
-            Compact Outdoor Cooking System
-          </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-center uppercase leading-none"
-          >
-            <h1
-              className="w-screen relative left-1/2 -translate-x-1/2 whitespace-nowrap text-[88px] md:text-[150px] lg:text-[220px] font-serif font-bold tracking-tight leading-[0.9]"
-              style={{ color: HERO_HEADING_COLOR }}
-            >
-              <motion.span
-                initial={{ opacity: 0.4 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.9, ease: "easeOut", delay: 0.28 }}
-                className="inline-block mr-[0.22em]"
-              >
-                One
-              </motion.span>
-              <motion.span
-                initial={{ opacity: 0.4 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.9, ease: "easeOut", delay: 0.54 }}
-                className="inline-block"
-              >
-                Box
-              </motion.span>
-            </h1>
-            <div className="w-screen relative left-1/2 -translate-x-1/2 mt-2 mb-2 border-b-2 border-dotted border-charcoal-foreground/65" />
-            <p className="text-2xl md:text-3xl lg:text-4xl font-serif font-bold tracking-tight" style={{ color: HERO_HEADING_COLOR }}>
-              Full Kitchen
-            </p>
-          </motion.div>
-        </motion.div>
-
-        {/* Product image - absolutely centered in the viewport, stays put while frames crossfade */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 0.6 }}
-          className="absolute inset-0 z-10 flex items-center justify-center px-6 md:px-12 pointer-events-none"
-        >
-          <div className="relative mx-auto w-[94vw] md:w-[86vw] lg:w-[78vw] xl:w-[72vw] aspect-[16/6]">
-            {HERO_SEQUENCE_FRAMES.map((src, index) => (
-              <HeroFrame
-                key={src}
-                src={src}
-                index={index}
-                total={HERO_SEQUENCE_FRAMES.length}
-                scrollProgress={scrollYProgress}
-                position={HERO_FRAME_POSITIONS[index] ?? "50% center"}
-              />
-            ))}
-          </div>
-        </motion.div>
-
-        {/* Bottom left CTA */}
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
+      {/* Main content */}
+      <div className="relative z-10 flex-1 flex flex-col items-center justify-center px-6 pt-16 md:pt-20 pb-4">
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.9 }}
-          className="absolute z-20 bottom-8 left-6 md:left-10 max-w-xs"
+          transition={{ duration: 0.6 }}
+          className="text-xs md:text-sm tracking-[0.12em] text-charcoal-foreground/85 uppercase mb-1"
         >
-          <p className="mb-3 text-xs md:text-sm uppercase tracking-wide text-charcoal-foreground/85">
-            One box outdoor kitchen built for travel-ready meals
-          </p>
-          <Link
-            href={KICKSTARTER_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-primary text-primary-foreground text-sm font-semibold uppercase tracking-wide hover:bg-primary/90 transition-colors pointer-events-auto"
+          Compact Outdoor Cooking System
+        </motion.p>
+
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+          className="text-center uppercase leading-none mb-8 mt-0"
+        >
+          <h1
+            className="w-screen relative left-1/2 -translate-x-1/2 whitespace-nowrap text-[104px] md:text-[180px] lg:text-[260px] font-serif font-bold tracking-tight leading-[0.9]"
+            style={{ color: HERO_HEADING_COLOR }}
           >
-            Back on Kickstarter
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-            </svg>
-          </Link>
+            <motion.span
+              initial={{ opacity: 0.4 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.9, ease: "easeOut", delay: 0.28 }}
+              className="inline-block mr-[0.22em]"
+            >
+              One
+            </motion.span>
+            <motion.span
+              initial={{ opacity: 0.4 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.9, ease: "easeOut", delay: 0.54 }}
+              className="inline-block"
+            >
+              Box
+            </motion.span>
+          </h1>
+          <div className="w-screen relative left-1/2 -translate-x-1/2 mt-3 mb-3 border-b-2 border-dotted border-charcoal-foreground/65" />
+          <p className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold tracking-tight" style={{ color: HERO_HEADING_COLOR }}>
+            Full Kitchen
+          </p>
         </motion.div>
       </div>
+
+      {/* Product image */}
+      <motion.div
+        initial={{ opacity: 0, y: 60 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1, delay: 0.6 }}
+        className="relative z-10 w-full px-6 md:px-12 pb-1"
+      >
+        <motion.div
+          style={{ y: imageY }}
+          className="relative mx-auto w-[94vw] md:w-[86vw] lg:w-[78vw] xl:w-[72vw] aspect-[16/6]"
+        >
+          {HERO_SEQUENCE_FRAMES.map((src, index) => (
+            <motion.div
+              key={src}
+              className="absolute inset-0"
+              style={{
+                opacity: useTransform(
+                  scrollPixels,
+                  [
+                    Math.max(0, index * SCROLL_SEGMENT_PX - SCROLL_SEGMENT_PX * 0.28),
+                    index * SCROLL_SEGMENT_PX,
+                    index * SCROLL_SEGMENT_PX + SCROLL_SEGMENT_PX * HOLD_RATIO,
+                    (index + 1) * SCROLL_SEGMENT_PX,
+                  ],
+                  [0, 1, 1, 0]
+                ),
+              }}
+            >
+              <Image
+                src={src}
+                alt={`Kamper hero sequence frame ${index + 1}`}
+                fill
+                priority={index === 0}
+                className="object-contain scale-[3.6]"
+                style={{ objectPosition: HERO_FRAME_POSITIONS[index] ?? "50% center" }}
+              />
+            </motion.div>
+          ))}
+        </motion.div>
+      </motion.div>
+
+      {/* Bottom left CTA */}
+      <motion.div
+        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.9 }}
+        className="absolute z-20 bottom-8 left-6 md:left-10 max-w-xs"
+      >
+        <p className="mb-3 text-xs md:text-sm uppercase tracking-wide text-charcoal-foreground/85">
+          One box outdoor kitchen built for travel-ready meals
+        </p>
+        <Link
+          href={KICKSTARTER_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-primary text-primary-foreground text-sm font-semibold uppercase tracking-wide hover:bg-primary/90 transition-colors"
+        >
+          Back on Kickstarter
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+          </svg>
+        </Link>
+      </motion.div>
     </section>
   )
 }
