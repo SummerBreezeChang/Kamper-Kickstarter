@@ -7,10 +7,10 @@ import { WordOpacityHeading } from "@/components/kamper/word-opacity-heading"
 
 const recipeCards = [
   {
-    title: "Skillet Lemon Herb Chicken",
+    title: "Short Rib Fajita Skillet",
     time: "20 min",
-    description: "Seared chicken strips with charred peppers, onions, and zucchini on a smoking-hot griddle. Smoky, bright, ready in minutes.",
-    note: "Replace with one-pan chicken + herbs image",
+    description: "Sizzling short rib strips with charred peppers, onions, and zucchini on a smoking-hot griddle. Bold, smoky, ready in minutes.",
+    note: "Replace with fajita skillet image",
     image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/g01.png-knJYISvEPANwkS5o33g8sABOzNBeeS.jpeg",
   },
   {
