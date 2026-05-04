@@ -16,6 +16,9 @@ const HERO_SEQUENCE_FRAMES = [
 const HERO_FRAME_POSITIONS = ["53% center", "51% center", "50% center", "50% center"]
 const SCROLL_SEGMENT_PX = 392
 const HOLD_RATIO = 0.72
+// Vertical lift applied from frame 2 onward so the product centers in the viewport
+// instead of staying anchored at the bottom of the hero section.
+const CENTER_LIFT_PX = 260
 const leftNav = [
   { label: "Specs", href: "#details" },
   { label: "Use Cases", href: "#lifestyle" },
@@ -34,10 +37,17 @@ export function Hero() {
   const navBackground = useMotionTemplate`rgba(47, 79, 62, ${navOpacity})`
   const navBorder = useMotionTemplate`rgba(244, 248, 236, ${navBorderOpacity})`
   const scrollPixels = useTransform(scrollY, [0, SCROLL_SEGMENT_PX * 3], [0, SCROLL_SEGMENT_PX * 3])
+  // imageY tracks scroll 1:1 so the product stays in viewport, but is lifted by
+  // CENTER_LIFT_PX once we transition into frame 2 to vertically center it.
   const imageY = useTransform(
     scrollPixels,
     [0, SCROLL_SEGMENT_PX, SCROLL_SEGMENT_PX * 2, SCROLL_SEGMENT_PX * 3],
-    [0, SCROLL_SEGMENT_PX, SCROLL_SEGMENT_PX * 2, SCROLL_SEGMENT_PX * 3]
+    [
+      0,
+      SCROLL_SEGMENT_PX - CENTER_LIFT_PX,
+      SCROLL_SEGMENT_PX * 2 - CENTER_LIFT_PX,
+      SCROLL_SEGMENT_PX * 3 - CENTER_LIFT_PX,
+    ]
   )
   // "Unfold" title appears when the second frame (index 1) is in view
   const unfoldOpacity = useTransform(
