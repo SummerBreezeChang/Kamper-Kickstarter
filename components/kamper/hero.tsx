@@ -7,6 +7,8 @@ import Link from "next/link"
 
 const KICKSTARTER_URL = "https://www.kickstarter.com"
 const HERO_HEADING_COLOR = "#F4F4CC"
+const HERO_VIDEO_URL = "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/a01-W482Yp81pQGmOOpGwUWOxiGr0Y4YgB.mp4"
+const HERO_VIDEO_BG = "#87917A" // Matches the video background
 const HERO_SEQUENCE_FRAMES = ["/luma/a01.png", "/luma/a02.png", "/luma/a03.png", "/luma/a04.png", "/luma/a05.png"]
 const HERO_FRAME_POSITIONS = ["53% center", "51% center", "50% center", "50% center", "50% center"]
 const SCROLL_SEGMENT_PX = 405
@@ -156,34 +158,59 @@ export function Hero() {
           style={{ y: imageY }}
           className="relative mx-auto w-[94vw] md:w-[86vw] lg:w-[78vw] xl:w-[72vw] aspect-[16/6]"
         >
-          {HERO_SEQUENCE_FRAMES.map((src, index) => (
-            <motion.div
-              key={src}
-              className="absolute inset-0"
-              style={{
-                y: index === 0 ? imageY : 0,
-                opacity: useTransform(
-                  scrollPixels,
-                  [
-                    Math.max(0, index * SCROLL_SEGMENT_PX - SCROLL_SEGMENT_PX * 0.28),
-                    index * SCROLL_SEGMENT_PX,
-                    index * SCROLL_SEGMENT_PX + SCROLL_SEGMENT_PX * HOLD_RATIO,
-                    (index + 1) * SCROLL_SEGMENT_PX,
-                  ],
-                  [0, 1, 1, 0]
-                ),
-              }}
-            >
-              <Image
-                src={src}
-                alt={`Kamper hero sequence frame ${index + 1}`}
-                fill
-                priority={index === 0}
-                className="object-contain scale-[3.6]"
-                style={{ objectPosition: HERO_FRAME_POSITIONS[index] ?? "50% center" }}
+          {/* First frame: Video */}
+          <motion.div
+            className="absolute inset-0"
+            style={{
+              y: imageY,
+              opacity: useTransform(
+                scrollPixels,
+                [0, SCROLL_SEGMENT_PX * HOLD_RATIO, SCROLL_SEGMENT_PX],
+                [1, 1, 0]
+              ),
+            }}
+          >
+            <div className="absolute inset-0 flex items-center justify-center" style={{ backgroundColor: HERO_VIDEO_BG }}>
+              <video
+                src={HERO_VIDEO_URL}
+                autoPlay
+                muted
+                loop
+                playsInline
+                className="h-full w-auto max-w-none object-contain scale-[3.6]"
               />
-            </motion.div>
-          ))}
+            </div>
+          </motion.div>
+          {/* Remaining frames: Images */}
+          {HERO_SEQUENCE_FRAMES.slice(1).map((src, i) => {
+            const index = i + 1
+            return (
+              <motion.div
+                key={src}
+                className="absolute inset-0"
+                style={{
+                  opacity: useTransform(
+                    scrollPixels,
+                    [
+                      Math.max(0, index * SCROLL_SEGMENT_PX - SCROLL_SEGMENT_PX * 0.28),
+                      index * SCROLL_SEGMENT_PX,
+                      index * SCROLL_SEGMENT_PX + SCROLL_SEGMENT_PX * HOLD_RATIO,
+                      (index + 1) * SCROLL_SEGMENT_PX,
+                    ],
+                    [0, 1, 1, 0]
+                  ),
+                }}
+              >
+                <Image
+                  src={src}
+                  alt={`Kamper hero sequence frame ${index + 1}`}
+                  fill
+                  className="object-contain scale-[3.6]"
+                  style={{ objectPosition: HERO_FRAME_POSITIONS[index] ?? "50% center" }}
+                />
+              </motion.div>
+            )
+          })}
         </motion.div>
       </motion.div>
 
