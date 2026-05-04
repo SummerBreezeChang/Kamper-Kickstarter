@@ -33,12 +33,8 @@ export function Hero() {
   const navBorderOpacity = useTransform(scrollY, [0, 160], [0.35, 0.95])
   const navBackground = useMotionTemplate`rgba(47, 79, 62, ${navOpacity})`
   const navBorder = useMotionTemplate`rgba(244, 248, 236, ${navBorderOpacity})`
+  // Scroll progress for frame crossfades - evenly distributed across 4 frames
   const scrollPixels = useTransform(scrollY, [0, SCROLL_SEGMENT_PX * 3], [0, SCROLL_SEGMENT_PX * 3])
-  const imageY = useTransform(
-    scrollPixels,
-    [0, SCROLL_SEGMENT_PX, SCROLL_SEGMENT_PX * 2, SCROLL_SEGMENT_PX * 3],
-    [0, SCROLL_SEGMENT_PX, SCROLL_SEGMENT_PX * 2, SCROLL_SEGMENT_PX * 3]
-  )
 
   useEffect(() => {
     const unsubscribe = scrollY.on("change", (currentY) => {
@@ -155,8 +151,7 @@ export function Hero() {
         transition={{ duration: 1, delay: 0.6 }}
         className="relative z-10 w-full px-6 md:px-12 pb-1"
       >
-        <motion.div
-          style={{ y: imageY }}
+        <div
           className="relative mx-auto w-[94vw] md:w-[86vw] lg:w-[78vw] xl:w-[72vw] aspect-[16/6]"
         >
           {HERO_SEQUENCE_FRAMES.map((src, index) => (
@@ -181,12 +176,12 @@ export function Hero() {
                 alt={`Kamper hero sequence frame ${index + 1}`}
                 fill
                 priority={index === 0}
-                className={`object-contain ${index === 0 || index === 1 || index === 2 ? "scale-[2.88]" : "scale-[3.6]"}`}
+                className="object-contain scale-[2.88]"
                 style={{ objectPosition: HERO_FRAME_POSITIONS[index] ?? "50% center" }}
               />
             </motion.div>
           ))}
-        </motion.div>
+        </div>
       </motion.div>
 
       {/* Bottom left CTA */}
