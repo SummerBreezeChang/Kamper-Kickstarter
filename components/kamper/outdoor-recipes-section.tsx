@@ -25,7 +25,7 @@ const recipeCards = [
     time: "18 min",
     description: "Rice, seasonal vegetables, and simple seasoning in one pan. Lightweight, filling, and travel-friendly.",
     note: "Replace with veggie rice skillet image",
-    image: null,
+    image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/g03.png-bEYQDiY77lyJUfpVzZhr9NP2w7tmhz.jpeg",
   },
 ]
 
