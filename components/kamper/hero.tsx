@@ -8,7 +8,6 @@ import Link from "next/link"
 const KICKSTARTER_URL = "https://www.kickstarter.com"
 const HERO_HEADING_COLOR = "#F4F4CC"
 const HERO_VIDEO_URL = "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/a01-W482Yp81pQGmOOpGwUWOxiGr0Y4YgB.mp4"
-const HERO_VIDEO_BG = "#87917A" // Matches the video background
 const HERO_SEQUENCE_FRAMES = ["/luma/a01.png", "/luma/a02.png", "/luma/a03.png", "/luma/a04.png", "/luma/a05.png"]
 const HERO_FRAME_POSITIONS = ["53% center", "51% center", "50% center", "50% center", "50% center"]
 const SCROLL_SEGMENT_PX = 405
@@ -162,7 +161,6 @@ export function Hero() {
           <motion.div
             className="absolute inset-0"
             style={{
-              y: imageY,
               opacity: useTransform(
                 scrollPixels,
                 [0, SCROLL_SEGMENT_PX * HOLD_RATIO, SCROLL_SEGMENT_PX],
@@ -170,16 +168,15 @@ export function Hero() {
               ),
             }}
           >
-            <div className="absolute inset-0 flex items-center justify-center" style={{ backgroundColor: HERO_VIDEO_BG }}>
-              <video
-                src={HERO_VIDEO_URL}
-                autoPlay
-                muted
-                loop
-                playsInline
-                className="h-full w-auto max-w-none object-contain scale-[3.6]"
-              />
-            </div>
+            <video
+              src={HERO_VIDEO_URL}
+              autoPlay
+              muted
+              loop
+              playsInline
+              className="absolute inset-0 w-full h-full object-contain scale-[3.6]"
+              style={{ objectPosition: HERO_FRAME_POSITIONS[0] }}
+            />
           </motion.div>
           {/* Remaining frames: Images */}
           {HERO_SEQUENCE_FRAMES.slice(1).map((src, i) => {
