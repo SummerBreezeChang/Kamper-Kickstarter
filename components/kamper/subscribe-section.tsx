@@ -2,8 +2,8 @@
 
 import { useState } from "react"
 import { motion } from "framer-motion"
+import Image from "next/image"
 import Link from "next/link"
-import { ImagePlaceholder } from "@/components/kamper/image-placeholder"
 import { WordOpacityHeading } from "@/components/kamper/word-opacity-heading"
 
 export function SubscribeSection() {
@@ -91,13 +91,14 @@ export function SubscribeSection() {
           initial={{ opacity: 0, x: 24 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: false }}
-          className="relative min-h-[360px] bg-muted p-0"
+          className="relative min-h-[360px] bg-muted p-0 overflow-hidden"
         >
-          <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_20%_20%,rgba(255,255,255,0.2),transparent_30%),radial-gradient(circle_at_75%_70%,rgba(120,0,50,0.35),transparent_35%)]" />
-          <ImagePlaceholder
-            title="Subscribe Visual"
-            note="Replace with angled Kamper product shot on pink background"
-            className="h-full w-full rounded-none border-0 bg-transparent text-foreground"
+          <Image
+            src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/h01.png-jCHRgahKLPNfkm3gQS8CGM0nHsTv2Q.jpeg"
+            alt="Mountain lake view with KAMPER grill setup at golden hour"
+            fill
+            className="object-cover"
+            sizes="(max-width: 1024px) 100vw, 50vw"
           />
         </motion.div>
       </div>
