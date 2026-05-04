@@ -71,6 +71,15 @@ export function Hero() {
     ],
     [0, 1, 1, 0]
   )
+  // "All you need in one box" tagline appears when the fourth frame (index 3) is in view
+  const allInOneOpacity = useTransform(
+    scrollPixels,
+    [
+      SCROLL_SEGMENT_PX * 3 - SCROLL_SEGMENT_PX * 0.28,
+      SCROLL_SEGMENT_PX * 3,
+    ],
+    [0, 1]
+  )
 
   useEffect(() => {
     const unsubscribe = scrollY.on("change", (currentY) => {
@@ -245,6 +254,19 @@ export function Hero() {
           Ready
           <br />
           to Cook
+        </p>
+      </motion.div>
+
+      {/* Bottom-center scroll-driven tagline for fourth frame */}
+      <motion.div
+        style={{ opacity: allInOneOpacity }}
+        className="fixed z-30 bottom-16 md:bottom-20 left-1/2 -translate-x-1/2 pointer-events-none"
+      >
+        <p
+          className="text-3xl md:text-5xl lg:text-6xl font-serif font-bold uppercase tracking-tight leading-none text-center whitespace-nowrap"
+          style={{ color: HERO_HEADING_COLOR }}
+        >
+          All You Need in One Box
         </p>
       </motion.div>
 
