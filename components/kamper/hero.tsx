@@ -10,7 +10,7 @@ const HERO_HEADING_COLOR = "#F4F4CC"
 const HERO_SEQUENCE_FRAMES = [
   "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/a01-PusVFJuPGEpBL9c1Fz6CQ7FHKsrc3I.png",
   "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/a02-LP6aL5042HP2uXecCrkFxjCbp63ham.png",
-  "/luma/a04.png",
+  "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/a03-1CVulEP54k8Xo165zT3TaCRmKiA0TS.png",
   "/luma/a05.png",
 ]
 const HERO_FRAME_POSITIONS = ["53% center", "51% center", "50% center", "50% center"]
