@@ -173,8 +173,7 @@ export function Hero() {
               Box
             </motion.span>
           </h1>
-          <div className="w-screen relative left-1/2 -translate-x-1/2 mt-3 mb-3 border-b-2 border-dotted border-charcoal-foreground/65" />
-          <p className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold tracking-tight" style={{ color: HERO_HEADING_COLOR }}>
+          <p className="mt-6 text-3xl md:text-4xl lg:text-5xl font-serif font-bold tracking-tight" style={{ color: HERO_HEADING_COLOR }}>
             Full Kitchen
           </p>
         </motion.div>
