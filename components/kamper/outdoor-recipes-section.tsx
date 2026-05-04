@@ -38,7 +38,7 @@ export function OutdoorRecipesSection() {
   const gridLiftY = useTransform(scrollYProgress, [0, 0.55, 1], [120, 0, -150])
 
   return (
-    <section id="one-pot-meals" className="bg-charcoal text-charcoal-foreground py-16 md:py-20">
+    <section id="one-pot-meals" className="bg-muted-foreground text-charcoal-foreground py-16 md:py-20">
       <div className="max-w-[1600px] mx-auto px-4 md:px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
