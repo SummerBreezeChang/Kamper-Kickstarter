@@ -39,6 +39,17 @@ export function Hero() {
     [0, SCROLL_SEGMENT_PX, SCROLL_SEGMENT_PX * 2, SCROLL_SEGMENT_PX * 3],
     [0, SCROLL_SEGMENT_PX, SCROLL_SEGMENT_PX * 2, SCROLL_SEGMENT_PX * 3]
   )
+  // "Unfold" title appears when the second frame (index 1) is in view
+  const unfoldOpacity = useTransform(
+    scrollPixels,
+    [
+      SCROLL_SEGMENT_PX - SCROLL_SEGMENT_PX * 0.28,
+      SCROLL_SEGMENT_PX,
+      SCROLL_SEGMENT_PX + SCROLL_SEGMENT_PX * HOLD_RATIO,
+      SCROLL_SEGMENT_PX * 2,
+    ],
+    [0, 1, 1, 0]
+  )
 
   useEffect(() => {
     const unsubscribe = scrollY.on("change", (currentY) => {
@@ -187,6 +198,19 @@ export function Hero() {
             </motion.div>
           ))}
         </motion.div>
+      </motion.div>
+
+      {/* Top-right scroll-driven title for second frame */}
+      <motion.div
+        style={{ opacity: unfoldOpacity }}
+        className="fixed z-30 top-24 md:top-28 right-6 md:right-10 pointer-events-none"
+      >
+        <p
+          className="text-5xl md:text-7xl lg:text-8xl font-serif font-bold uppercase tracking-tight leading-none"
+          style={{ color: HERO_HEADING_COLOR }}
+        >
+          Unfold
+        </p>
       </motion.div>
 
       {/* Bottom left CTA */}
