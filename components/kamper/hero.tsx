@@ -34,11 +34,9 @@ export function Hero() {
   const navBackground = useMotionTemplate`rgba(47, 79, 62, ${navOpacity})`
   const navBorder = useMotionTemplate`rgba(244, 248, 236, ${navBorderOpacity})`
   const scrollPixels = useTransform(scrollY, [0, SCROLL_SEGMENT_PX * 3], [0, SCROLL_SEGMENT_PX * 3])
-  const imageY = useTransform(
-    scrollPixels,
-    [0, SCROLL_SEGMENT_PX, SCROLL_SEGMENT_PX * 2, SCROLL_SEGMENT_PX * 3],
-    [0, SCROLL_SEGMENT_PX, SCROLL_SEGMENT_PX * 2, SCROLL_SEGMENT_PX * 3]
-  )
+  // Keep the product container nearly stationary — only a subtle 40px drift so
+  // it stays fully visible while frames crossfade at their scroll positions.
+  const imageY = useTransform(scrollPixels, [0, SCROLL_SEGMENT_PX * 3], [0, 40])
 
   useEffect(() => {
     const unsubscribe = scrollY.on("change", (currentY) => {
