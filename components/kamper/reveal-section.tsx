@@ -34,7 +34,7 @@ export function RevealSection() {
   const headingY = useTransform(scrollYProgress, [0.42, 0.9], [26, 0])
 
   return (
-    <section ref={containerRef} id="reveal" className="relative h-[calc(360vh-1300px)] bg-transparent text-charcoal-foreground">
+    <section ref={containerRef} id="reveal" className="relative h-[200vh] bg-transparent text-charcoal-foreground">
       <div className="sticky top-0 h-screen overflow-hidden">
         <div className="relative mx-auto flex h-full w-full max-w-[1540px] items-center justify-center px-6 md:px-10">
           {/* 3-pass heading / description / CTA flow */}
