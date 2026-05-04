@@ -86,7 +86,7 @@ export function ProductDetails() {
                 src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/c01-nZS5VXgZlsz47GsrPLsjCJupf8jJBe.png"
                 alt="KAMPER product detail showing cooking box, prep table with bamboo cutting board, griddle and accessory trays"
                 fill
-                className="object-contain p-4"
+                className="object-cover"
                 sizes="(max-width: 1024px) 100vw, 50vw"
               />
             </div>
