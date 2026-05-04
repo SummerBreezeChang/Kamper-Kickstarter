@@ -60,6 +60,17 @@ export function Hero() {
     ],
     [0, 1, 1, 0]
   )
+  // "Ready to Cook" title appears when the third frame (index 2) is in view
+  const readyToCookOpacity = useTransform(
+    scrollPixels,
+    [
+      SCROLL_SEGMENT_PX * 2 - SCROLL_SEGMENT_PX * 0.28,
+      SCROLL_SEGMENT_PX * 2,
+      SCROLL_SEGMENT_PX * 2 + SCROLL_SEGMENT_PX * HOLD_RATIO,
+      SCROLL_SEGMENT_PX * 3,
+    ],
+    [0, 1, 1, 0]
+  )
 
   useEffect(() => {
     const unsubscribe = scrollY.on("change", (currentY) => {
@@ -220,6 +231,21 @@ export function Hero() {
           style={{ color: HERO_HEADING_COLOR }}
         >
           Unfold
+        </p>
+      </motion.div>
+
+      {/* Top-left scroll-driven title for third frame */}
+      <motion.div
+        style={{ opacity: readyToCookOpacity }}
+        className="fixed z-30 top-24 md:top-28 left-6 md:left-10 pointer-events-none"
+      >
+        <p
+          className="text-5xl md:text-7xl lg:text-8xl font-serif font-bold uppercase tracking-tight leading-none"
+          style={{ color: HERO_HEADING_COLOR }}
+        >
+          Ready
+          <br />
+          to Cook
         </p>
       </motion.div>
 
