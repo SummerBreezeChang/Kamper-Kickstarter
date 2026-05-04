@@ -79,9 +79,9 @@ export function ProductDetails() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: false }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="relative h-full"
+            className="relative"
           >
-            <div className="relative min-h-[600px] rounded-2xl overflow-hidden bg-white">
+            <div className="relative aspect-square rounded-2xl overflow-hidden bg-white">
               <Image
                 src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/c01-nZS5VXgZlsz47GsrPLsjCJupf8jJBe.png"
                 alt="KAMPER product detail showing cooking box, prep table with bamboo cutting board, griddle and accessory trays"
