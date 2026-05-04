@@ -225,7 +225,7 @@ export function Hero() {
                 alt={`Kamper hero sequence frame ${index + 1}`}
                 fill
                 priority={index === 0}
-                className={`object-contain ${index === 0 || index === 1 || index === 2 ? "scale-[2.88]" : "scale-[3.6]"} ${index === 2 ? "translate-x-[80px]" : ""} ${index === 3 ? "translate-y-[234px]" : ""}`}
+                className={`object-contain ${index === 0 || index === 1 || index === 2 ? "scale-[2.88]" : "scale-[3.6]"} ${index === 2 ? "md:translate-x-[80px]" : ""} ${index === 3 ? "translate-y-[120px] md:translate-y-[234px]" : ""}`}
                 style={{ objectPosition: HERO_FRAME_POSITIONS[index] ?? "50% center" }}
               />
             </motion.div>
@@ -236,10 +236,10 @@ export function Hero() {
       {/* Top-right scroll-driven title for second frame */}
       <motion.div
         style={{ opacity: unfoldOpacity }}
-        className="fixed z-30 top-24 md:top-28 right-6 md:right-10 pointer-events-none"
+        className="fixed z-30 top-20 md:top-28 right-6 md:right-10 pointer-events-none"
       >
         <p
-          className="text-5xl md:text-7xl lg:text-8xl font-serif font-bold uppercase tracking-tight leading-none"
+          className="text-4xl md:text-7xl lg:text-8xl font-serif font-bold uppercase tracking-tight leading-none"
           style={{ color: HERO_HEADING_COLOR }}
         >
           Unfold
@@ -249,10 +249,10 @@ export function Hero() {
       {/* Top-left scroll-driven title for third frame */}
       <motion.div
         style={{ opacity: readyToCookOpacity }}
-        className="fixed z-30 top-24 md:top-28 left-6 md:left-10 pointer-events-none"
+        className="fixed z-30 top-20 md:top-28 left-6 md:left-10 pointer-events-none"
       >
         <p
-          className="text-5xl md:text-7xl lg:text-8xl font-serif font-bold uppercase tracking-tight leading-none"
+          className="text-4xl md:text-7xl lg:text-8xl font-serif font-bold uppercase tracking-tight leading-none"
           style={{ color: HERO_HEADING_COLOR }}
         >
           Ready
@@ -264,10 +264,10 @@ export function Hero() {
       {/* Bottom-center scroll-driven tagline for fourth frame */}
       <motion.div
         style={{ opacity: allInOneOpacity }}
-        className="fixed z-30 bottom-16 md:bottom-20 left-1/2 -translate-x-1/2 pointer-events-none"
+        className="fixed z-30 bottom-12 md:bottom-20 left-1/2 -translate-x-1/2 pointer-events-none w-[92vw] md:w-auto"
       >
         <p
-          className="text-5xl md:text-7xl lg:text-8xl font-serif font-bold uppercase tracking-tight leading-none text-center whitespace-nowrap"
+          className="text-3xl md:text-7xl lg:text-8xl font-serif font-bold uppercase tracking-tight leading-[0.95] md:leading-none text-center md:whitespace-nowrap"
           style={{ color: HERO_HEADING_COLOR }}
         >
           All You Need in One Box
@@ -279,7 +279,7 @@ export function Hero() {
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.9 }}
-        className="absolute z-20 bottom-[168px] left-6 md:left-10 max-w-xs"
+        className="absolute z-20 bottom-10 md:bottom-[168px] left-6 md:left-10 max-w-xs"
       >
         <p className="mb-3 text-xs md:text-sm uppercase tracking-wide text-charcoal-foreground/85">
           One box outdoor kitchen built for travel-ready meals
