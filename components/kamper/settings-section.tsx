@@ -17,7 +17,7 @@ const settings = [
     number: "02",
     title: "Campsite",
     description: "Morning light, fresh mountain air",
-    image: "Replace with campsite lifestyle image"
+    image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/d02.png-PYRrg0YxAc23hN7DHsL48XBMVxgwBQ.jpeg"
   },
   {
     number: "03",
