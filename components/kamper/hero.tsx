@@ -7,7 +7,13 @@ import Link from "next/link"
 
 const KICKSTARTER_URL = "https://www.kickstarter.com"
 const HERO_HEADING_COLOR = "#F4F4CC"
-const HERO_SEQUENCE_FRAMES = ["/luma/a01.png", "/luma/a02.png", "/luma/a03.png", "/luma/a04.png", "/luma/a05.png"]
+const HERO_SEQUENCE_FRAMES = [
+  "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/a01-PusVFJuPGEpBL9c1Fz6CQ7FHKsrc3I.png",
+  "/luma/a02.png",
+  "/luma/a03.png",
+  "/luma/a04.png",
+  "/luma/a05.png",
+]
 const HERO_FRAME_POSITIONS = ["53% center", "51% center", "50% center", "50% center", "50% center"]
 const SCROLL_SEGMENT_PX = 280
 const HOLD_RATIO = 0.72
