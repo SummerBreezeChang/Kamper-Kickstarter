@@ -5,7 +5,6 @@ import { RevealSection } from "@/components/kamper/reveal-section"
 import { WhySection } from "@/components/kamper/why-section"
 import { ProductDetails } from "@/components/kamper/product-details"
 import { SettingsSection } from "@/components/kamper/settings-section"
-import { RecipesSection } from "@/components/kamper/recipes-section"
 import { FullCtaSection } from "@/components/kamper/full-cta-section"
 import { OutdoorRecipesSection } from "@/components/kamper/outdoor-recipes-section"
 import { SubscribeSection } from "@/components/kamper/subscribe-section"
@@ -54,11 +53,6 @@ export default function KamperPage() {
       {/* Section 5: Settings/Lifestyle - three lifestyle images */}
       <motion.div {...sectionReveal}>
         <SettingsSection />
-      </motion.div>
-      
-      {/* Section 6: Recipes */}
-      <motion.div {...sectionReveal}>
-        <RecipesSection />
       </motion.div>
       
       {/* Section 7: Full Page CTA */}
