@@ -11,18 +11,21 @@ const recipeCards = [
     time: "20 min",
     description: "Marinate ahead, sear in one pan, and finish with lemon. Bright flavor, fast cleanup.",
     note: "Replace with one-pan chicken + herbs image",
+    image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/g01.png-knJYISvEPANwkS5o33g8sABOzNBeeS.jpeg",
   },
   {
     title: "One-Pot Camp Chili",
     time: "25 min",
     description: "A hearty one-pot chili with beans, vegetables, and ground protein. Easy to prep, easy to serve.",
     note: "Replace with camp chili in pot image",
+    image: null,
   },
   {
     title: "Veggie Rice Skillet",
     time: "18 min",
     description: "Rice, seasonal vegetables, and simple seasoning in one pan. Lightweight, filling, and travel-friendly.",
     note: "Replace with veggie rice skillet image",
+    image: null,
   },
 ]
 
@@ -69,8 +72,16 @@ export function OutdoorRecipesSection() {
               className="bg-secondary text-secondary-foreground rounded-sm overflow-hidden border border-border"
             >
               <div className="p-2">
-                <div className="aspect-[4/3] overflow-hidden">
-                  <ImagePlaceholder title={card.title} note={card.note} className="rounded-none border-secondary-foreground/20 bg-card/60" />
+                <div className="relative aspect-[4/3] overflow-hidden">
+                  {card.image ? (
+                    <img
+                      src={card.image}
+                      alt={card.title}
+                      className="absolute inset-0 h-full w-full object-cover"
+                    />
+                  ) : (
+                    <ImagePlaceholder title={card.title} note={card.note} className="rounded-none border-secondary-foreground/20 bg-card/60" />
+                  )}
                 </div>
               </div>
               <div className="px-4 md:px-5 pb-5">
