@@ -10,11 +10,10 @@ const HERO_HEADING_COLOR = "#F4F4CC"
 const HERO_SEQUENCE_FRAMES = [
   "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/a01-PusVFJuPGEpBL9c1Fz6CQ7FHKsrc3I.png",
   "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/a02-LP6aL5042HP2uXecCrkFxjCbp63ham.png",
-  "/luma/a03.png",
   "/luma/a04.png",
   "/luma/a05.png",
 ]
-const HERO_FRAME_POSITIONS = ["53% center", "51% center", "50% center", "50% center", "50% center"]
+const HERO_FRAME_POSITIONS = ["53% center", "51% center", "50% center", "50% center"]
 const SCROLL_SEGMENT_PX = 280
 const HOLD_RATIO = 0.72
 const leftNav = [
@@ -34,11 +33,11 @@ export function Hero() {
   const navBorderOpacity = useTransform(scrollY, [0, 160], [0.35, 0.95])
   const navBackground = useMotionTemplate`rgba(47, 79, 62, ${navOpacity})`
   const navBorder = useMotionTemplate`rgba(244, 248, 236, ${navBorderOpacity})`
-  const scrollPixels = useTransform(scrollY, [0, SCROLL_SEGMENT_PX * 4], [0, SCROLL_SEGMENT_PX * 4])
+  const scrollPixels = useTransform(scrollY, [0, SCROLL_SEGMENT_PX * 3], [0, SCROLL_SEGMENT_PX * 3])
   const imageY = useTransform(
     scrollPixels,
-    [0, SCROLL_SEGMENT_PX, SCROLL_SEGMENT_PX * 2, SCROLL_SEGMENT_PX * 3, SCROLL_SEGMENT_PX * 4],
-    [0, SCROLL_SEGMENT_PX, SCROLL_SEGMENT_PX * 2, SCROLL_SEGMENT_PX * 3, SCROLL_SEGMENT_PX * 4]
+    [0, SCROLL_SEGMENT_PX, SCROLL_SEGMENT_PX * 2, SCROLL_SEGMENT_PX * 3],
+    [0, SCROLL_SEGMENT_PX, SCROLL_SEGMENT_PX * 2, SCROLL_SEGMENT_PX * 3]
   )
 
   useEffect(() => {
