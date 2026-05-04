@@ -134,11 +134,11 @@ export function WhySection() {
                                   [-16 + pointIndex * 3, -6, 0]
                                 ),
                               }}
-                              className="mt-1 inline-flex h-10 w-10 items-center justify-center rounded-full border border-charcoal-foreground/50 text-sm"
+                              className="shrink-0 inline-flex h-6 w-6 md:h-7 md:w-7 items-center justify-center rounded-full border border-charcoal-foreground/50 text-[8px] md:text-[10px] leading-none"
                             >
                               ●
                             </motion.span>
-                            <p className="max-w-lg text-xl md:text-2xl uppercase leading-[1.1] text-charcoal-foreground/92">
+                            <p className="max-w-lg text-sm md:text-base uppercase leading-[1.4] text-charcoal-foreground/92">
                               {point}
                             </p>
                           </motion.div>

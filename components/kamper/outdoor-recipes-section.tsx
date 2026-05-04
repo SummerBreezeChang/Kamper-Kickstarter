@@ -7,25 +7,25 @@ import { WordOpacityHeading } from "@/components/kamper/word-opacity-heading"
 
 const recipeCards = [
   {
-    title: "Skillet Lemon Herb Chicken",
+    title: "Short Rib Fajita Skillet",
     time: "20 min",
-    description: "Marinate ahead, sear in one pan, and finish with lemon. Bright flavor, fast cleanup.",
-    note: "Replace with one-pan chicken + herbs image",
+    description: "Sizzling short rib strips with charred peppers, onions, and zucchini on a smoking-hot griddle. Bold, smoky, ready in minutes.",
+    note: "Replace with fajita skillet image",
     image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/g01.png-knJYISvEPANwkS5o33g8sABOzNBeeS.jpeg",
   },
   {
     title: "One-Pot Camp Chili",
     time: "25 min",
-    description: "A hearty one-pot chili with beans, vegetables, and ground protein. Easy to prep, easy to serve.",
+    description: "Hearty beef and bean chili topped with melted cheddar, sour cream, and fresh scallions. Prep on the board, simmer in one pot.",
     note: "Replace with camp chili in pot image",
     image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/g02.png-oXdgw70nE8dpJGmtnPzqmJY8QmR9nd.jpeg",
   },
   {
-    title: "Veggie Rice Skillet",
+    title: "Rosemary Veggie Skillet",
     time: "18 min",
-    description: "Rice, seasonal vegetables, and simple seasoning in one pan. Lightweight, filling, and travel-friendly.",
-    note: "Replace with veggie rice skillet image",
-    image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/g03.png-bEYQDiY77lyJUfpVzZhr9NP2w7tmhz.jpeg",
+    description: "Golden potatoes, bell peppers, and mushrooms tossed with fresh rosemary. Crispy edges, simple seasoning, one pan.",
+    note: "Replace with veggie skillet image",
+    image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Kamper_-_Outdoor_Cooking_Kitchen_A7_UCH6U.png-cvoi4zJOZzgUxU5iUil0D6EEu2homL.jpeg",
   },
 ]
 

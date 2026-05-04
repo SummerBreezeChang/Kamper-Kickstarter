@@ -7,10 +7,18 @@ import Link from "next/link"
 
 const KICKSTARTER_URL = "https://www.kickstarter.com"
 const HERO_HEADING_COLOR = "#F4F4CC"
-const HERO_SEQUENCE_FRAMES = ["/luma/a01.png", "/luma/a02.png", "/luma/a03.png", "/luma/a04.png", "/luma/a05.png"]
-const HERO_FRAME_POSITIONS = ["53% center", "51% center", "50% center", "50% center", "50% center"]
-const SCROLL_SEGMENT_PX = 280
+const HERO_SEQUENCE_FRAMES = [
+  "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/a01-PusVFJuPGEpBL9c1Fz6CQ7FHKsrc3I.png",
+  "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/a02-LP6aL5042HP2uXecCrkFxjCbp63ham.png",
+  "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/a03-1CVulEP54k8Xo165zT3TaCRmKiA0TS.png",
+  "/luma/a05.png",
+]
+const HERO_FRAME_POSITIONS = ["53% center", "51% center", "50% center", "50% center"]
+const SCROLL_SEGMENT_PX = 392
 const HOLD_RATIO = 0.72
+// Vertical lift applied from frame 2 onward so the product centers in the viewport
+// instead of staying anchored at the bottom of the hero section.
+const CENTER_LIFT_PX = 260
 const leftNav = [
   { label: "Specs", href: "#details" },
   { label: "Use Cases", href: "#lifestyle" },
@@ -28,11 +36,53 @@ export function Hero() {
   const navBorderOpacity = useTransform(scrollY, [0, 160], [0.35, 0.95])
   const navBackground = useMotionTemplate`rgba(47, 79, 62, ${navOpacity})`
   const navBorder = useMotionTemplate`rgba(244, 248, 236, ${navBorderOpacity})`
-  const scrollPixels = useTransform(scrollY, [0, SCROLL_SEGMENT_PX * 4], [0, SCROLL_SEGMENT_PX * 4])
+  const scrollPixels = useTransform(scrollY, [0, SCROLL_SEGMENT_PX * 3], [0, SCROLL_SEGMENT_PX * 3])
+  // imageY tracks scroll 1:1 so the product stays in viewport, but is lifted by
+  // CENTER_LIFT_PX once we transition into frame 2 to vertically center it.
   const imageY = useTransform(
     scrollPixels,
-    [0, SCROLL_SEGMENT_PX, SCROLL_SEGMENT_PX * 2, SCROLL_SEGMENT_PX * 3, SCROLL_SEGMENT_PX * 4],
-    [0, SCROLL_SEGMENT_PX, SCROLL_SEGMENT_PX * 2, SCROLL_SEGMENT_PX * 3, SCROLL_SEGMENT_PX * 4]
+    [0, SCROLL_SEGMENT_PX, SCROLL_SEGMENT_PX * 2, SCROLL_SEGMENT_PX * 3],
+    [
+      0,
+      SCROLL_SEGMENT_PX - CENTER_LIFT_PX,
+      SCROLL_SEGMENT_PX * 2 - CENTER_LIFT_PX,
+      SCROLL_SEGMENT_PX * 3 - CENTER_LIFT_PX,
+    ]
+  )
+  // "Unfold" title appears when the second frame (index 1) is in view
+  const unfoldOpacity = useTransform(
+    scrollPixels,
+    [
+      SCROLL_SEGMENT_PX - SCROLL_SEGMENT_PX * 0.28,
+      SCROLL_SEGMENT_PX,
+      SCROLL_SEGMENT_PX + SCROLL_SEGMENT_PX * HOLD_RATIO,
+      SCROLL_SEGMENT_PX * 2,
+    ],
+    [0, 1, 1, 0]
+  )
+  // "Ready to Cook" title appears when the third frame (index 2) is in view
+  const readyToCookOpacity = useTransform(
+    scrollPixels,
+    [
+      SCROLL_SEGMENT_PX * 2 - SCROLL_SEGMENT_PX * 0.28,
+      SCROLL_SEGMENT_PX * 2,
+      SCROLL_SEGMENT_PX * 2 + SCROLL_SEGMENT_PX * HOLD_RATIO,
+      SCROLL_SEGMENT_PX * 3,
+    ],
+    [0, 1, 1, 0]
+  )
+  // "All you need in one box" tagline appears when the fourth frame (index 3) is in view,
+  // then fades out as the user continues scrolling past the hero section.
+  // Uses scrollY directly (instead of scrollPixels) so it can fade out beyond the clamped range.
+  const allInOneOpacity = useTransform(
+    scrollY,
+    [
+      SCROLL_SEGMENT_PX * 3 - SCROLL_SEGMENT_PX * 0.28,
+      SCROLL_SEGMENT_PX * 3,
+      SCROLL_SEGMENT_PX * 3 + SCROLL_SEGMENT_PX * HOLD_RATIO,
+      SCROLL_SEGMENT_PX * 4,
+    ],
+    [0, 1, 1, 0]
   )
 
   useEffect(() => {
@@ -136,8 +186,7 @@ export function Hero() {
               Box
             </motion.span>
           </h1>
-          <div className="w-screen relative left-1/2 -translate-x-1/2 mt-3 mb-3 border-b-2 border-dotted border-charcoal-foreground/65" />
-          <p className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold tracking-tight" style={{ color: HERO_HEADING_COLOR }}>
+          <p className="mt-6 text-3xl md:text-4xl lg:text-5xl font-serif font-bold tracking-tight" style={{ color: HERO_HEADING_COLOR }}>
             Full Kitchen
           </p>
         </motion.div>
@@ -176,7 +225,7 @@ export function Hero() {
                 alt={`Kamper hero sequence frame ${index + 1}`}
                 fill
                 priority={index === 0}
-                className="object-contain scale-[3.6]"
+                className={`object-contain ${index === 0 || index === 1 || index === 2 ? "scale-[2.88]" : "scale-[3.6]"} ${index === 2 ? "translate-x-[80px]" : ""} ${index === 3 ? "translate-y-[234px]" : ""}`}
                 style={{ objectPosition: HERO_FRAME_POSITIONS[index] ?? "50% center" }}
               />
             </motion.div>
@@ -184,12 +233,53 @@ export function Hero() {
         </motion.div>
       </motion.div>
 
+      {/* Top-right scroll-driven title for second frame */}
+      <motion.div
+        style={{ opacity: unfoldOpacity }}
+        className="fixed z-30 top-24 md:top-28 right-6 md:right-10 pointer-events-none"
+      >
+        <p
+          className="text-5xl md:text-7xl lg:text-8xl font-serif font-bold uppercase tracking-tight leading-none"
+          style={{ color: HERO_HEADING_COLOR }}
+        >
+          Unfold
+        </p>
+      </motion.div>
+
+      {/* Top-left scroll-driven title for third frame */}
+      <motion.div
+        style={{ opacity: readyToCookOpacity }}
+        className="fixed z-30 top-24 md:top-28 left-6 md:left-10 pointer-events-none"
+      >
+        <p
+          className="text-5xl md:text-7xl lg:text-8xl font-serif font-bold uppercase tracking-tight leading-none"
+          style={{ color: HERO_HEADING_COLOR }}
+        >
+          Ready
+          <br />
+          to Cook
+        </p>
+      </motion.div>
+
+      {/* Bottom-center scroll-driven tagline for fourth frame */}
+      <motion.div
+        style={{ opacity: allInOneOpacity }}
+        className="fixed z-30 bottom-16 md:bottom-20 left-1/2 -translate-x-1/2 pointer-events-none"
+      >
+        <p
+          className="text-5xl md:text-7xl lg:text-8xl font-serif font-bold uppercase tracking-tight leading-none text-center whitespace-nowrap"
+          style={{ color: HERO_HEADING_COLOR }}
+        >
+          All You Need in One Box
+        </p>
+      </motion.div>
+
       {/* Bottom left CTA */}
       <motion.div
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.9 }}
-        className="absolute z-20 bottom-8 left-6 md:left-10 max-w-xs"
+        className="absolute z-20 bottom-[168px] left-6 md:left-10 max-w-xs"
       >
         <p className="mb-3 text-xs md:text-sm uppercase tracking-wide text-charcoal-foreground/85">
           One box outdoor kitchen built for travel-ready meals
