@@ -19,6 +19,9 @@ const HOLD_RATIO = 0.72
 // Vertical lift applied from frame 2 onward so the product centers in the viewport
 // instead of staying anchored at the bottom of the hero section.
 const CENTER_LIFT_PX = 260
+// On mobile the image starts 86px lower so it doesn't overlap the heading text.
+// On desktop this is 0 (no offset needed). Read once on mount via a ref.
+const MOBILE_IMAGE_START_OFFSET_PX = 86
 const leftNav = [
   { label: "Specs", href: "#details" },
   { label: "Use Cases", href: "#lifestyle" },
@@ -32,8 +35,18 @@ export function Hero() {
   const { scrollY } = useScroll()
   const [isNavHidden, setIsNavHidden] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [mobileOffset, setMobileOffset] = useState(0)
   const lastScrollY = useRef(0)
   const mobileNav = [...leftNav, ...rightNav]
+
+  useEffect(() => {
+    const update = () => {
+      setMobileOffset(window.innerWidth < 768 ? MOBILE_IMAGE_START_OFFSET_PX : 0)
+    }
+    update()
+    window.addEventListener("resize", update)
+    return () => window.removeEventListener("resize", update)
+  }, [])
   const navOpacity = useTransform(scrollY, [0, 220], [0.08, 0.52])
   const navBorderOpacity = useTransform(scrollY, [0, 160], [0.35, 0.95])
   const navBackground = useMotionTemplate`rgba(47, 79, 62, ${navOpacity})`
@@ -45,10 +58,10 @@ export function Hero() {
     scrollPixels,
     [0, SCROLL_SEGMENT_PX, SCROLL_SEGMENT_PX * 2, SCROLL_SEGMENT_PX * 3],
     [
-      0,
-      SCROLL_SEGMENT_PX - CENTER_LIFT_PX,
-      SCROLL_SEGMENT_PX * 2 - CENTER_LIFT_PX,
-      SCROLL_SEGMENT_PX * 3 - CENTER_LIFT_PX,
+      mobileOffset,
+      SCROLL_SEGMENT_PX - CENTER_LIFT_PX + mobileOffset,
+      SCROLL_SEGMENT_PX * 2 - CENTER_LIFT_PX + mobileOffset,
+      SCROLL_SEGMENT_PX * 3 - CENTER_LIFT_PX + mobileOffset,
     ]
   )
   // "Unfold" title appears when the second frame (index 1) is in view
