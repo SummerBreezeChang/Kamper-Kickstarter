@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
-import { motion, useMotionTemplate, useScroll, useTransform } from "framer-motion"
+import { AnimatePresence, motion, useMotionTemplate, useScroll, useTransform } from "framer-motion"
 import Image from "next/image"
 import Link from "next/link"
 
@@ -31,7 +31,9 @@ const rightNav = [
 export function Hero() {
   const { scrollY } = useScroll()
   const [isNavHidden, setIsNavHidden] = useState(false)
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const lastScrollY = useRef(0)
+  const mobileNav = [...leftNav, ...rightNav]
   const navOpacity = useTransform(scrollY, [0, 220], [0.08, 0.52])
   const navBorderOpacity = useTransform(scrollY, [0, 160], [0.35, 0.95])
   const navBackground = useMotionTemplate`rgba(47, 79, 62, ${navOpacity})`
@@ -116,20 +118,21 @@ export function Hero() {
           WebkitBackdropFilter: "blur(8px)",
         }}
       >
-        <div className="px-5 md:px-8 py-4 flex items-center justify-between gap-3">
+        {/* Desktop nav - 3-section layout (chips + logo + chips) */}
+        <div className="hidden md:flex px-8 py-4 items-center justify-between gap-3">
           <div className="flex items-center gap-2">
             {leftNav.map((item) => (
               <Link
                 key={item.label}
                 href={item.href}
-                className="px-4 md:px-5 py-2 rounded-full bg-secondary text-secondary-foreground text-xs md:text-sm font-semibold uppercase tracking-wide hover:bg-accent hover:text-accent-foreground transition-colors"
+                className="px-5 py-2 rounded-full bg-secondary text-secondary-foreground text-sm font-semibold uppercase tracking-wide hover:bg-accent hover:text-accent-foreground transition-colors"
               >
                 {item.label}
               </Link>
             ))}
           </div>
 
-          <Link href="#hero" className="text-base md:text-lg font-serif font-semibold tracking-wide text-charcoal-foreground uppercase">
+          <Link href="#hero" className="text-lg font-serif font-semibold tracking-wide text-charcoal-foreground uppercase">
             Kamper
           </Link>
 
@@ -138,14 +141,69 @@ export function Hero() {
               <Link
                 key={item.label}
                 href={item.href}
-                className="px-4 md:px-5 py-2 rounded-full bg-secondary text-secondary-foreground text-xs md:text-sm font-semibold uppercase tracking-wide hover:bg-accent hover:text-accent-foreground transition-colors"
+                className="px-5 py-2 rounded-full bg-secondary text-secondary-foreground text-sm font-semibold uppercase tracking-wide hover:bg-accent hover:text-accent-foreground transition-colors"
               >
                 {item.label}
               </Link>
             ))}
           </div>
         </div>
+
+        {/* Mobile nav - logo left, hamburger right */}
+        <div className="flex md:hidden px-5 py-4 items-center justify-between">
+          <Link
+            href="#hero"
+            className="text-lg font-serif font-semibold tracking-wide text-charcoal-foreground uppercase"
+            onClick={() => setIsMobileMenuOpen(false)}
+          >
+            Kamper
+          </Link>
+          <button
+            type="button"
+            aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
+            aria-expanded={isMobileMenuOpen}
+            onClick={() => setIsMobileMenuOpen((open) => !open)}
+            className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-secondary text-secondary-foreground hover:bg-accent hover:text-accent-foreground transition-colors"
+          >
+            <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d={isMobileMenuOpen ? "M6 18L18 6M6 6l12 12" : "M4 7h16M4 12h16M4 17h16"}
+              />
+            </svg>
+          </button>
+        </div>
+
         <motion.div className="border-b-2 border-dotted" style={{ borderColor: navBorder }} />
+
+        {/* Mobile dropdown menu */}
+        <AnimatePresence>
+          {isMobileMenuOpen && (
+            <motion.div
+              key="mobile-menu"
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.22, ease: "easeOut" }}
+              className="md:hidden overflow-hidden"
+            >
+              <div className="flex flex-col gap-2 px-5 py-4">
+                {mobileNav.map((item) => (
+                  <Link
+                    key={item.label}
+                    href={item.href}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="px-4 py-3 rounded-full bg-secondary text-secondary-foreground text-sm font-semibold uppercase tracking-wide text-center hover:bg-accent hover:text-accent-foreground transition-colors"
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </motion.nav>
 
       {/* Main content */}
