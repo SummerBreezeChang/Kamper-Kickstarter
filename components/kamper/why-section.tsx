@@ -107,12 +107,12 @@ export function WhySection() {
                         {step.description}
                       </p>
                     </div>
-                    <div className="flex-1 flex items-center justify-center md:justify-start">
+                    <div className="mt-4 md:mt-0 md:flex-1 md:flex md:items-center md:justify-start">
                       <motion.div
                         style={{
                           x: useTransform(stepIndex, [index - 0.1, index + 0.45], [160, 0]),
                         }}
-                        className="w-full max-w-2xl space-y-4"
+                        className="w-full max-w-2xl space-y-1.5 md:space-y-4"
                       >
                         {step.points.map((point, pointIndex) => (
                           <motion.div
