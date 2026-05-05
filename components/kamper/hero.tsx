@@ -207,7 +207,7 @@ export function Hero() {
       </motion.nav>
 
       {/* Main content */}
-      <div className="relative z-10 flex-1 flex flex-col items-center justify-center px-6 pt-16 md:pt-20 pb-4">
+      <div className="relative z-10 flex-1 flex flex-col items-center justify-center px-6 pt-[140px] md:pt-[172px] pb-4">
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -337,7 +337,7 @@ export function Hero() {
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.9 }}
-        className="absolute z-20 bottom-[192px] md:bottom-[234px] left-6 md:left-10 max-w-xs"
+        className="absolute z-20 bottom-[278px] md:bottom-[320px] left-6 md:left-10 max-w-xs"
       >
         <p className="mb-3 text-xs md:text-sm uppercase tracking-wide text-charcoal-foreground/85">
           One box outdoor kitchen built for travel-ready meals
