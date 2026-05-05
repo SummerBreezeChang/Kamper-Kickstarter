@@ -19,9 +19,11 @@ const HOLD_RATIO = 0.72
 // Vertical lift applied from frame 2 onward so the product centers in the viewport
 // instead of staying anchored at the bottom of the hero section.
 const CENTER_LIFT_PX = 260
-// On mobile the image starts 86px lower so it doesn't overlap the heading text.
-// On desktop this is 0 (no offset needed). Read once on mount via a ref.
-const MOBILE_IMAGE_START_OFFSET_PX = 86
+// Mobile-specific lift per frame — much smaller than desktop so the image
+// stays within the shorter mobile viewport across all scroll frames.
+const MOBILE_CENTER_LIFT_PX = 120
+// Starting Y offset on mobile so image anchors lower (below the heading text).
+const MOBILE_IMAGE_START_OFFSET_PX = 68
 const leftNav = [
   { label: "Specs", href: "#details" },
   { label: "Use Cases", href: "#lifestyle" },
@@ -36,12 +38,15 @@ export function Hero() {
   const [isNavHidden, setIsNavHidden] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [mobileOffset, setMobileOffset] = useState(0)
+  const [liftPx, setLiftPx] = useState(CENTER_LIFT_PX)
   const lastScrollY = useRef(0)
   const mobileNav = [...leftNav, ...rightNav]
 
   useEffect(() => {
     const update = () => {
-      setMobileOffset(window.innerWidth < 768 ? MOBILE_IMAGE_START_OFFSET_PX : 0)
+      const isMobile = window.innerWidth < 768
+      setMobileOffset(isMobile ? MOBILE_IMAGE_START_OFFSET_PX : 0)
+      setLiftPx(isMobile ? MOBILE_CENTER_LIFT_PX : CENTER_LIFT_PX)
     }
     update()
     window.addEventListener("resize", update)
@@ -59,9 +64,9 @@ export function Hero() {
     [0, SCROLL_SEGMENT_PX, SCROLL_SEGMENT_PX * 2, SCROLL_SEGMENT_PX * 3],
     [
       mobileOffset,
-      SCROLL_SEGMENT_PX - CENTER_LIFT_PX + mobileOffset,
-      SCROLL_SEGMENT_PX * 2 - CENTER_LIFT_PX + mobileOffset,
-      SCROLL_SEGMENT_PX * 3 - CENTER_LIFT_PX + mobileOffset,
+      SCROLL_SEGMENT_PX - liftPx + mobileOffset,
+      SCROLL_SEGMENT_PX * 2 - liftPx + mobileOffset,
+      SCROLL_SEGMENT_PX * 3 - liftPx + mobileOffset,
     ]
   )
   // "Unfold" title appears when the second frame (index 1) is in view
