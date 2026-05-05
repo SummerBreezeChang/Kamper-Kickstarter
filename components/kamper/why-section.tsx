@@ -211,7 +211,7 @@ export function WhySection() {
               muted
               loop
               playsInline
-              className="absolute inset-0 h-full w-full object-cover"
+              className="absolute inset-0 h-full w-full object-cover scale-80 origin-center"
             />
           </div>
         </div>
