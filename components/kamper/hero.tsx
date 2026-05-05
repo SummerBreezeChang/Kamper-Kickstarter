@@ -337,7 +337,7 @@ export function Hero() {
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.9 }}
-        className="absolute z-20 bottom-[126px] md:bottom-[168px] left-6 md:left-10 max-w-xs"
+        className="absolute z-20 bottom-[192px] md:bottom-[234px] left-6 md:left-10 max-w-xs"
       >
         <p className="mb-3 text-xs md:text-sm uppercase tracking-wide text-charcoal-foreground/85">
           One box outdoor kitchen built for travel-ready meals
