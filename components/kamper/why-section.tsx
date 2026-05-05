@@ -65,7 +65,7 @@ export function WhySection() {
   return (
     <section ref={sectionRef} id="why" className="relative h-[320vh] bg-charcoal text-charcoal-foreground">
       <div className="sticky top-0 h-screen overflow-hidden">
-        <div className="grid h-full grid-cols-1 lg:grid-cols-2">
+        <div className="grid h-full grid-cols-1 grid-rows-2 lg:grid-cols-2 lg:grid-rows-1">
           {/* Left copy panel */}
           <div className="relative border-r border-charcoal-foreground/20">
             <div className="absolute left-0 right-0 top-0 border-t-2 border-dotted border-charcoal-foreground/45" />
@@ -81,7 +81,7 @@ export function WhySection() {
                 {index === 0 ? (
                   <>
                     <div>
-                      <h2 className="max-w-[620px] whitespace-pre-line text-5xl md:text-7xl lg:text-[86px] font-serif font-bold uppercase tracking-tight leading-[0.88]">
+                      <h2 className="max-w-[620px] whitespace-pre-line text-[34px] sm:text-5xl md:text-7xl lg:text-[86px] font-serif font-bold uppercase tracking-tight leading-[0.88]">
                         <span
                           className="mr-[0.22em]"
                           style={{ opacity: getWordOpacity(index, 0, 3), color: "var(--charcoal-foreground)" }}
@@ -103,7 +103,7 @@ export function WhySection() {
                         </span>
                       </h2>
                       <div className="mt-7 border-b-2 border-dotted border-charcoal-foreground/45" />
-                      <p className="mt-6 max-w-md text-lg md:text-xl uppercase leading-[1.2] text-charcoal-foreground/88">
+                      <p className="mt-4 md:mt-6 max-w-md text-sm md:text-xl uppercase leading-[1.25] text-charcoal-foreground/88">
                         {step.description}
                       </p>
                     </div>
@@ -151,7 +151,7 @@ export function WhySection() {
                     <p className="mb-4 text-xs md:text-sm tracking-[0.16em] uppercase text-charcoal-foreground/64">
                       {step.eyebrow}
                     </p>
-                    <h2 className="max-w-[760px] whitespace-pre-line text-4xl md:text-5xl lg:text-[54px] font-serif font-bold uppercase tracking-tight leading-[0.92]">
+                    <h2 className="max-w-[760px] whitespace-pre-line text-[30px] sm:text-4xl md:text-5xl lg:text-[54px] font-serif font-bold uppercase tracking-tight leading-[0.92]">
                       <span
                         className="mr-[0.22em]"
                         style={{ opacity: getWordOpacity(index, 0, 1), color: "var(--charcoal-foreground)" }}
@@ -175,7 +175,7 @@ export function WhySection() {
                   </div>
                 ) : (
                   <div className="mt-auto pb-[62px]">
-                    <h2 className="max-w-[640px] whitespace-pre-line text-5xl md:text-7xl lg:text-[82px] font-serif font-bold uppercase tracking-tight leading-[0.88]">
+                    <h2 className="max-w-[640px] whitespace-pre-line text-[34px] sm:text-5xl md:text-7xl lg:text-[82px] font-serif font-bold uppercase tracking-tight leading-[0.88]">
                       <span
                         className="mr-[0.22em]"
                         style={{ opacity: getWordOpacity(index, 0, 3), color: "var(--charcoal-foreground)" }}
@@ -204,7 +204,7 @@ export function WhySection() {
           </div>
 
           {/* Right full-half video panel - stays fixed, fills the panel */}
-          <div className="relative h-full min-h-[45vh] overflow-hidden bg-secondary/30">
+          <div className="relative h-full overflow-hidden bg-secondary/30">
             <video
               src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/b01-QdiQCwKv2HELYQzLq0Xh46SasSPMgz.mp4"
               autoPlay
