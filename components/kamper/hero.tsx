@@ -206,11 +206,11 @@ export function Hero() {
         </AnimatePresence>
       </motion.nav>
 
-      {/* Desktop-only spacer to clear the fixed nav */}
-      <div className="hidden md:block h-[76px] flex-none" aria-hidden="true" />
+      {/* Spacer to clear the fixed nav - works for both mobile and desktop */}
+      <div className="h-[72px] md:h-[76px] flex-none" aria-hidden="true" />
 
       {/* Main content */}
-      <div className="relative z-10 flex flex-col items-center justify-center px-6 pt-16 md:pt-0 pb-4 -translate-y-[86px] md:translate-y-0">
+      <div className="relative z-10 flex flex-col items-center justify-center px-6 pt-4 md:pt-0 pb-4">
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -286,7 +286,7 @@ export function Hero() {
                 alt={`Kamper hero sequence frame ${index + 1}`}
                 fill
                 priority={index === 0}
-                className={`object-contain ${index === 0 || index === 1 || index === 2 ? "scale-[2.88]" : "scale-[3.6]"} ${index === 0 ? "-translate-y-[66px] md:translate-y-0" : ""} ${index === 2 ? "md:translate-x-[80px]" : ""} ${index === 3 ? "translate-y-[120px] md:translate-y-[234px]" : ""}`}
+                className={`object-contain ${index === 0 || index === 1 || index === 2 ? "scale-[2.88]" : "scale-[3.6]"} ${index === 2 ? "md:translate-x-[80px]" : ""} ${index === 3 ? "translate-y-[120px] md:translate-y-[234px]" : ""}`}
                 style={{ objectPosition: HERO_FRAME_POSITIONS[index] ?? "50% center" }}
               />
             </motion.div>
