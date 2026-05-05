@@ -244,7 +244,7 @@ export function Hero() {
               Box
             </motion.span>
           </h1>
-          <p className="mt-6 text-3xl md:text-4xl lg:text-5xl font-serif font-bold tracking-tight" style={{ color: HERO_HEADING_COLOR }}>
+          <p className="mt-1 text-sm md:text-4xl lg:text-5xl font-serif font-bold tracking-tight uppercase" style={{ color: HERO_HEADING_COLOR }}>
             Full Kitchen
           </p>
         </motion.div>
