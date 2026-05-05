@@ -23,7 +23,7 @@ const CENTER_LIFT_PX = 260
 // stays within the shorter mobile viewport across all scroll frames.
 const MOBILE_CENTER_LIFT_PX = 120
 // Starting Y offset on mobile so image anchors lower (below the heading text).
-const MOBILE_IMAGE_START_OFFSET_PX = 68
+const MOBILE_IMAGE_START_OFFSET_PX = 120
 const leftNav = [
   { label: "Specs", href: "#details" },
   { label: "Use Cases", href: "#lifestyle" },
