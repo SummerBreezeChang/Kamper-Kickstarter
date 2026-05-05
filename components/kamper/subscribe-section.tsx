@@ -8,12 +8,33 @@ import { WordOpacityHeading } from "@/components/kamper/word-opacity-heading"
 
 export function SubscribeSection() {
   const [email, setEmail] = useState("")
-  const [name, setName] = useState("")
+  const [firstName, setFirstName] = useState("")
+  const [lastName, setLastName] = useState("")
   const [submitted, setSubmitted] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
+  const [errorMessage, setErrorMessage] = useState<string | null>(null)
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (email) setSubmitted(true)
+    if (!email) return
+    setSubmitting(true)
+    setErrorMessage(null)
+    try {
+      const res = await fetch("/api/subscribe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ firstName, lastName, email }),
+      })
+      const data = await res.json().catch(() => ({}))
+      if (!res.ok) {
+        throw new Error(data?.error || "Subscription failed. Please try again.")
+      }
+      setSubmitted(true)
+    } catch (err) {
+      setErrorMessage(err instanceof Error ? err.message : "Something went wrong.")
+    } finally {
+      setSubmitting(false)
+    }
   }
 
   return (
@@ -54,26 +75,39 @@ export function SubscribeSection() {
                 <div className="grid gap-3 md:grid-cols-2">
                   <input
                     type="text"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    placeholder="Enter your full name"
+                    value={firstName}
+                    onChange={(e) => setFirstName(e.target.value)}
+                    placeholder="First name"
                     className="w-full rounded-full border border-foreground/25 bg-transparent px-5 py-4 text-sm uppercase tracking-wide text-foreground placeholder:text-foreground/55 focus:outline-none focus:ring-2 focus:ring-foreground/40"
                   />
                   <input
-                    type="email"
-                    required
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="Enter an e-mail address"
+                    type="text"
+                    value={lastName}
+                    onChange={(e) => setLastName(e.target.value)}
+                    placeholder="Last name"
                     className="w-full rounded-full border border-foreground/25 bg-transparent px-5 py-4 text-sm uppercase tracking-wide text-foreground placeholder:text-foreground/55 focus:outline-none focus:ring-2 focus:ring-foreground/40"
                   />
                 </div>
+                <input
+                  type="email"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Enter an e-mail address"
+                  className="w-full rounded-full border border-foreground/25 bg-transparent px-5 py-4 text-sm uppercase tracking-wide text-foreground placeholder:text-foreground/55 focus:outline-none focus:ring-2 focus:ring-foreground/40"
+                />
                 <button
                   type="submit"
-                  className="w-full rounded-full bg-primary px-8 py-4 text-sm font-semibold uppercase tracking-wide text-primary-foreground hover:bg-primary/90 transition-colors"
+                  disabled={submitting}
+                  className="w-full rounded-full bg-primary px-8 py-4 text-sm font-semibold uppercase tracking-wide text-primary-foreground hover:bg-primary/90 transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
                 >
-                  Subscribe
+                  {submitting ? "Submitting..." : "Subscribe"}
                 </button>
+                {errorMessage && (
+                  <p role="alert" className="text-sm text-primary">
+                    {errorMessage}
+                  </p>
+                )}
               </form>
             )}
 

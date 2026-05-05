@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
-import { motion, useMotionTemplate, useScroll, useTransform } from "framer-motion"
+import { AnimatePresence, motion, useMotionTemplate, useScroll, useTransform } from "framer-motion"
 import Image from "next/image"
 import Link from "next/link"
 
@@ -31,7 +31,9 @@ const rightNav = [
 export function Hero() {
   const { scrollY } = useScroll()
   const [isNavHidden, setIsNavHidden] = useState(false)
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const lastScrollY = useRef(0)
+  const mobileNav = [...leftNav, ...rightNav]
   const navOpacity = useTransform(scrollY, [0, 220], [0.08, 0.52])
   const navBorderOpacity = useTransform(scrollY, [0, 160], [0.35, 0.95])
   const navBackground = useMotionTemplate`rgba(47, 79, 62, ${navOpacity})`
@@ -116,20 +118,21 @@ export function Hero() {
           WebkitBackdropFilter: "blur(8px)",
         }}
       >
-        <div className="px-5 md:px-8 py-4 flex items-center justify-between gap-3">
+        {/* Desktop nav - 3-section layout (chips + logo + chips) */}
+        <div className="hidden md:flex px-8 py-4 items-center justify-between gap-3">
           <div className="flex items-center gap-2">
             {leftNav.map((item) => (
               <Link
                 key={item.label}
                 href={item.href}
-                className="px-4 md:px-5 py-2 rounded-full bg-secondary text-secondary-foreground text-xs md:text-sm font-semibold uppercase tracking-wide hover:bg-accent hover:text-accent-foreground transition-colors"
+                className="px-5 py-2 rounded-full bg-secondary text-secondary-foreground text-sm font-semibold uppercase tracking-wide hover:bg-accent hover:text-accent-foreground transition-colors"
               >
                 {item.label}
               </Link>
             ))}
           </div>
 
-          <Link href="#hero" className="text-base md:text-lg font-serif font-semibold tracking-wide text-charcoal-foreground uppercase">
+          <Link href="#hero" className="text-lg font-serif font-semibold tracking-wide text-charcoal-foreground uppercase">
             Kamper
           </Link>
 
@@ -138,18 +141,73 @@ export function Hero() {
               <Link
                 key={item.label}
                 href={item.href}
-                className="px-4 md:px-5 py-2 rounded-full bg-secondary text-secondary-foreground text-xs md:text-sm font-semibold uppercase tracking-wide hover:bg-accent hover:text-accent-foreground transition-colors"
+                className="px-5 py-2 rounded-full bg-secondary text-secondary-foreground text-sm font-semibold uppercase tracking-wide hover:bg-accent hover:text-accent-foreground transition-colors"
               >
                 {item.label}
               </Link>
             ))}
           </div>
         </div>
+
+        {/* Mobile nav - logo left, hamburger right */}
+        <div className="flex md:hidden px-5 py-4 items-center justify-between">
+          <Link
+            href="#hero"
+            className="text-lg font-serif font-semibold tracking-wide text-charcoal-foreground uppercase"
+            onClick={() => setIsMobileMenuOpen(false)}
+          >
+            Kamper
+          </Link>
+          <button
+            type="button"
+            aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
+            aria-expanded={isMobileMenuOpen}
+            onClick={() => setIsMobileMenuOpen((open) => !open)}
+            className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-secondary text-secondary-foreground hover:bg-accent hover:text-accent-foreground transition-colors"
+          >
+            <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d={isMobileMenuOpen ? "M6 18L18 6M6 6l12 12" : "M4 7h16M4 12h16M4 17h16"}
+              />
+            </svg>
+          </button>
+        </div>
+
         <motion.div className="border-b-2 border-dotted" style={{ borderColor: navBorder }} />
+
+        {/* Mobile dropdown menu */}
+        <AnimatePresence>
+          {isMobileMenuOpen && (
+            <motion.div
+              key="mobile-menu"
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.22, ease: "easeOut" }}
+              className="md:hidden overflow-hidden"
+            >
+              <div className="flex flex-col gap-2 px-5 py-4">
+                {mobileNav.map((item) => (
+                  <Link
+                    key={item.label}
+                    href={item.href}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="px-4 py-3 rounded-full bg-secondary text-secondary-foreground text-sm font-semibold uppercase tracking-wide text-center hover:bg-accent hover:text-accent-foreground transition-colors"
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </motion.nav>
 
       {/* Main content */}
-      <div className="relative z-10 flex-1 flex flex-col items-center justify-center px-6 pt-16 md:pt-20 pb-4">
+      <div className="relative z-10 flex-1 flex flex-col items-center justify-center px-6 pt-16 md:pt-20 pb-4 -translate-y-[86px]">
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -166,7 +224,7 @@ export function Hero() {
           className="text-center uppercase leading-none mb-8 mt-0"
         >
           <h1
-            className="w-screen relative left-1/2 -translate-x-1/2 whitespace-nowrap text-[104px] md:text-[180px] lg:text-[260px] font-serif font-bold tracking-tight leading-[0.9]"
+            className="w-screen relative left-1/2 -translate-x-1/2 whitespace-nowrap text-[82px] md:text-[180px] lg:text-[260px] font-serif font-bold tracking-tight leading-[0.9]"
             style={{ color: HERO_HEADING_COLOR }}
           >
             <motion.span
@@ -186,7 +244,7 @@ export function Hero() {
               Box
             </motion.span>
           </h1>
-          <p className="mt-6 text-3xl md:text-4xl lg:text-5xl font-serif font-bold tracking-tight" style={{ color: HERO_HEADING_COLOR }}>
+          <p className="mt-1 text-sm md:text-4xl lg:text-5xl font-serif font-bold tracking-tight uppercase" style={{ color: HERO_HEADING_COLOR }}>
             Full Kitchen
           </p>
         </motion.div>
@@ -225,7 +283,7 @@ export function Hero() {
                 alt={`Kamper hero sequence frame ${index + 1}`}
                 fill
                 priority={index === 0}
-                className={`object-contain ${index === 0 || index === 1 || index === 2 ? "scale-[2.88]" : "scale-[3.6]"} ${index === 2 ? "translate-x-[80px]" : ""} ${index === 3 ? "translate-y-[234px]" : ""}`}
+                className={`object-contain ${index === 0 || index === 1 || index === 2 ? "scale-[2.88]" : "scale-[3.6]"} ${index === 0 ? "-translate-y-[66px] md:translate-y-0" : ""} ${index === 2 ? "md:translate-x-[80px]" : ""} ${index === 3 ? "translate-y-[120px] md:translate-y-[234px]" : ""}`}
                 style={{ objectPosition: HERO_FRAME_POSITIONS[index] ?? "50% center" }}
               />
             </motion.div>
@@ -236,10 +294,10 @@ export function Hero() {
       {/* Top-right scroll-driven title for second frame */}
       <motion.div
         style={{ opacity: unfoldOpacity }}
-        className="fixed z-30 top-24 md:top-28 right-6 md:right-10 pointer-events-none"
+        className="fixed z-30 top-20 md:top-28 right-6 md:right-10 pointer-events-none"
       >
         <p
-          className="text-5xl md:text-7xl lg:text-8xl font-serif font-bold uppercase tracking-tight leading-none"
+          className="text-4xl md:text-7xl lg:text-8xl font-serif font-bold uppercase tracking-tight leading-none"
           style={{ color: HERO_HEADING_COLOR }}
         >
           Unfold
@@ -249,10 +307,10 @@ export function Hero() {
       {/* Top-left scroll-driven title for third frame */}
       <motion.div
         style={{ opacity: readyToCookOpacity }}
-        className="fixed z-30 top-24 md:top-28 left-6 md:left-10 pointer-events-none"
+        className="fixed z-30 top-20 md:top-28 left-6 md:left-10 pointer-events-none"
       >
         <p
-          className="text-5xl md:text-7xl lg:text-8xl font-serif font-bold uppercase tracking-tight leading-none"
+          className="text-4xl md:text-7xl lg:text-8xl font-serif font-bold uppercase tracking-tight leading-none"
           style={{ color: HERO_HEADING_COLOR }}
         >
           Ready
@@ -264,10 +322,10 @@ export function Hero() {
       {/* Bottom-center scroll-driven tagline for fourth frame */}
       <motion.div
         style={{ opacity: allInOneOpacity }}
-        className="fixed z-30 bottom-16 md:bottom-20 left-1/2 -translate-x-1/2 pointer-events-none"
+        className="fixed z-30 bottom-12 md:bottom-20 left-1/2 -translate-x-1/2 pointer-events-none w-[92vw] md:w-auto"
       >
         <p
-          className="text-5xl md:text-7xl lg:text-8xl font-serif font-bold uppercase tracking-tight leading-none text-center whitespace-nowrap"
+          className="text-3xl md:text-7xl lg:text-8xl font-serif font-bold uppercase tracking-tight leading-[0.95] md:leading-none text-center md:whitespace-nowrap"
           style={{ color: HERO_HEADING_COLOR }}
         >
           All You Need in One Box
@@ -279,7 +337,7 @@ export function Hero() {
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.9 }}
-        className="absolute z-20 bottom-[168px] left-6 md:left-10 max-w-xs"
+        className="absolute z-20 bottom-[278px] md:bottom-[320px] left-6 md:left-10 max-w-xs"
       >
         <p className="mb-3 text-xs md:text-sm uppercase tracking-wide text-charcoal-foreground/85">
           One box outdoor kitchen built for travel-ready meals
