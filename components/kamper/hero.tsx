@@ -145,7 +145,7 @@ export function Hero() {
             ))}
           </div>
 
-          <Link href="#hero" className="text-lg font-serif font-semibold tracking-wide text-charcoal-foreground uppercase">
+          <Link href="#hero" className="text-xl font-serif font-semibold tracking-wide text-charcoal-foreground uppercase">
             Kamper
           </Link>
 
