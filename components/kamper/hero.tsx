@@ -19,6 +19,11 @@ const HOLD_RATIO = 0.72
 // Vertical lift applied from frame 2 onward so the product centers in the viewport
 // instead of staying anchored at the bottom of the hero section.
 const CENTER_LIFT_PX = 260
+// Mobile-specific lift per frame — much smaller than desktop so the image
+// stays within the shorter mobile viewport across all scroll frames.
+const MOBILE_CENTER_LIFT_PX = 120
+// Starting Y offset on mobile so image anchors lower (below the heading text).
+const MOBILE_IMAGE_START_OFFSET_PX = 120
 const leftNav = [
   { label: "Specs", href: "#details" },
   { label: "Use Cases", href: "#lifestyle" },
@@ -32,8 +37,21 @@ export function Hero() {
   const { scrollY } = useScroll()
   const [isNavHidden, setIsNavHidden] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [mobileOffset, setMobileOffset] = useState(0)
+  const [liftPx, setLiftPx] = useState(CENTER_LIFT_PX)
   const lastScrollY = useRef(0)
   const mobileNav = [...leftNav, ...rightNav]
+
+  useEffect(() => {
+    const update = () => {
+      const isMobile = window.innerWidth < 768
+      setMobileOffset(isMobile ? MOBILE_IMAGE_START_OFFSET_PX : 0)
+      setLiftPx(isMobile ? MOBILE_CENTER_LIFT_PX : CENTER_LIFT_PX)
+    }
+    update()
+    window.addEventListener("resize", update)
+    return () => window.removeEventListener("resize", update)
+  }, [])
   const navOpacity = useTransform(scrollY, [0, 220], [0.08, 0.52])
   const navBorderOpacity = useTransform(scrollY, [0, 160], [0.35, 0.95])
   const navBackground = useMotionTemplate`rgba(47, 79, 62, ${navOpacity})`
@@ -45,10 +63,10 @@ export function Hero() {
     scrollPixels,
     [0, SCROLL_SEGMENT_PX, SCROLL_SEGMENT_PX * 2, SCROLL_SEGMENT_PX * 3],
     [
-      0,
-      SCROLL_SEGMENT_PX - CENTER_LIFT_PX,
-      SCROLL_SEGMENT_PX * 2 - CENTER_LIFT_PX,
-      SCROLL_SEGMENT_PX * 3 - CENTER_LIFT_PX,
+      mobileOffset,
+      SCROLL_SEGMENT_PX - liftPx + mobileOffset,
+      SCROLL_SEGMENT_PX * 2 - liftPx + mobileOffset,
+      SCROLL_SEGMENT_PX * 3 - liftPx + mobileOffset,
     ]
   )
   // "Unfold" title appears when the second frame (index 1) is in view
@@ -132,7 +150,7 @@ export function Hero() {
             ))}
           </div>
 
-          <Link href="#hero" className="text-lg font-serif font-semibold tracking-wide text-charcoal-foreground uppercase">
+          <Link href="#hero" className="text-xl font-serif font-semibold tracking-wide text-charcoal-foreground uppercase">
             Kamper
           </Link>
 
@@ -206,8 +224,11 @@ export function Hero() {
         </AnimatePresence>
       </motion.nav>
 
+      {/* Spacer to clear the fixed nav - works for both mobile and desktop */}
+      <div className="h-[72px] md:h-[76px] flex-none" aria-hidden="true" />
+
       {/* Main content */}
-      <div className="relative z-10 flex-1 flex flex-col items-center justify-center px-6 pt-16 md:pt-20 pb-4 -translate-y-[86px]">
+      <div className="relative z-10 flex flex-col items-center justify-center px-6 pt-4 md:pt-0 pb-4">
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -283,7 +304,7 @@ export function Hero() {
                 alt={`Kamper hero sequence frame ${index + 1}`}
                 fill
                 priority={index === 0}
-                className={`object-contain ${index === 0 || index === 1 || index === 2 ? "scale-[2.88]" : "scale-[3.6]"} ${index === 0 ? "-translate-y-[66px] md:translate-y-0" : ""} ${index === 2 ? "md:translate-x-[80px]" : ""} ${index === 3 ? "translate-y-[120px] md:translate-y-[234px]" : ""}`}
+                className={`object-contain ${index === 0 || index === 1 || index === 2 ? "scale-[2.88]" : "scale-[3.6]"} ${index === 2 ? "md:translate-x-[80px]" : ""} ${index === 3 ? "translate-y-[120px] md:translate-y-[234px]" : ""}`}
                 style={{ objectPosition: HERO_FRAME_POSITIONS[index] ?? "50% center" }}
               />
             </motion.div>
@@ -337,7 +358,7 @@ export function Hero() {
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.9 }}
-        className="absolute z-20 bottom-[278px] md:bottom-[320px] left-6 md:left-10 max-w-xs"
+        className="absolute z-20 bottom-[278px] md:bottom-[168px] left-6 md:left-10 max-w-xs"
       >
         <p className="mb-3 text-xs md:text-sm uppercase tracking-wide text-charcoal-foreground/85">
           One box outdoor kitchen built for travel-ready meals
