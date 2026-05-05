@@ -224,7 +224,7 @@ export function Hero() {
           className="text-center uppercase leading-none mb-8 mt-0"
         >
           <h1
-            className="w-screen relative left-1/2 -translate-x-1/2 whitespace-nowrap text-[104px] md:text-[180px] lg:text-[260px] font-serif font-bold tracking-tight leading-[0.9]"
+            className="w-screen relative left-1/2 -translate-x-1/2 whitespace-nowrap text-[82px] md:text-[180px] lg:text-[260px] font-serif font-bold tracking-tight leading-[0.9]"
             style={{ color: HERO_HEADING_COLOR }}
           >
             <motion.span
@@ -283,7 +283,7 @@ export function Hero() {
                 alt={`Kamper hero sequence frame ${index + 1}`}
                 fill
                 priority={index === 0}
-                className={`object-contain ${index === 0 || index === 1 || index === 2 ? "scale-[2.88]" : "scale-[3.6]"} ${index === 2 ? "md:translate-x-[80px]" : ""} ${index === 3 ? "translate-y-[120px] md:translate-y-[234px]" : ""}`}
+                className={`object-contain ${index === 0 || index === 1 || index === 2 ? "scale-[2.88]" : "scale-[3.6]"} ${index === 0 ? "-translate-y-[66px] md:translate-y-0" : ""} ${index === 2 ? "md:translate-x-[80px]" : ""} ${index === 3 ? "translate-y-[120px] md:translate-y-[234px]" : ""}`}
                 style={{ objectPosition: HERO_FRAME_POSITIONS[index] ?? "50% center" }}
               />
             </motion.div>
@@ -337,7 +337,7 @@ export function Hero() {
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.9 }}
-        className="absolute z-20 bottom-10 md:bottom-[168px] left-6 md:left-10 max-w-xs"
+        className="absolute z-20 bottom-[126px] md:bottom-[168px] left-6 md:left-10 max-w-xs"
       >
         <p className="mb-3 text-xs md:text-sm uppercase tracking-wide text-charcoal-foreground/85">
           One box outdoor kitchen built for travel-ready meals
