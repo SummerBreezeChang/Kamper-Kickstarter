@@ -1,21 +1,30 @@
 import { Client } from "@notionhq/client"
 import { NextResponse } from "next/server"
 
-const notion = new Client({ auth: process.env.NOTION_API_KEY })
-
 type NotionProp = { type: string }
 
 export async function POST(req: Request) {
   try {
+    const databaseId = process.env.NOTION_DATABASE_ID
+    const apiKey = process.env.NOTION_API_KEY
+
+    // Check env vars first before doing anything
+    if (!apiKey) {
+      console.error("[subscribe] NOTION_API_KEY is not set")
+      return NextResponse.json({ error: "Notion is not configured." }, { status: 500 })
+    }
+    if (!databaseId) {
+      console.error("[subscribe] NOTION_DATABASE_ID is not set")
+      return NextResponse.json({ error: "Notion is not configured." }, { status: 500 })
+    }
+
+    // Initialize client inside handler so env vars are always read at runtime
+    const notion = new Client({ auth: apiKey })
+
     const { firstName, lastName, email } = await req.json()
 
     if (!email || typeof email !== "string" || !email.includes("@")) {
       return NextResponse.json({ error: "A valid email is required." }, { status: 400 })
-    }
-
-    const databaseId = process.env.NOTION_DATABASE_ID
-    if (!databaseId || !process.env.NOTION_API_KEY) {
-      return NextResponse.json({ error: "Notion is not configured." }, { status: 500 })
     }
 
     // Retrieve the database schema so we can map our fields to whatever
@@ -81,9 +90,25 @@ export async function POST(req: Request) {
     })
 
     return NextResponse.json({ ok: true })
-  } catch (err) {
-    const message = err instanceof Error ? err.message : "Unknown error"
-    console.error("[subscribe] Notion error:", message)
-    return NextResponse.json({ error: "Subscription failed. Please try again." }, { status: 500 })
+  } catch (err: unknown) {
+    // Log full error details for debugging
+    console.error("[subscribe] Notion error:", err)
+    
+    // Extract useful error info from Notion API errors
+    let message = "Subscription failed. Please try again."
+    if (err && typeof err === "object") {
+      const notionErr = err as { code?: string; message?: string; body?: string }
+      if (notionErr.code === "unauthorized") {
+        message = "Notion API key is invalid."
+        console.error("[subscribe] Invalid NOTION_API_KEY")
+      } else if (notionErr.code === "object_not_found") {
+        message = "Notion database not found. Check NOTION_DATABASE_ID."
+        console.error("[subscribe] Database not found - check NOTION_DATABASE_ID and sharing permissions")
+      } else if (notionErr.message) {
+        console.error("[subscribe] Error message:", notionErr.message)
+      }
+    }
+    
+    return NextResponse.json({ error: message }, { status: 500 })
   }
 }
