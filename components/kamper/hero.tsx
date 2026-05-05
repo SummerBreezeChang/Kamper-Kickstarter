@@ -206,8 +206,8 @@ export function Hero() {
         </AnimatePresence>
       </motion.nav>
 
-      {/* Desktop-only spacer to clear the fixed nav (nav ~68px tall + desired breathing room) */}
-      <div className="hidden md:block h-[240px] flex-none" aria-hidden="true" />
+      {/* Desktop-only spacer to clear the fixed nav */}
+      <div className="hidden md:block h-[68px] flex-none" aria-hidden="true" />
 
       {/* Main content */}
       <div className="relative z-10 flex flex-col items-center justify-center px-6 pt-16 md:pt-0 pb-4 -translate-y-[86px] md:translate-y-0">
