@@ -11,10 +11,30 @@ export function SubscribeSection() {
   const [firstName, setFirstName] = useState("")
   const [lastName, setLastName] = useState("")
   const [submitted, setSubmitted] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
+  const [errorMessage, setErrorMessage] = useState<string | null>(null)
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (email) setSubmitted(true)
+    if (!email) return
+    setSubmitting(true)
+    setErrorMessage(null)
+    try {
+      const res = await fetch("/api/subscribe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ firstName, lastName, email }),
+      })
+      const data = await res.json().catch(() => ({}))
+      if (!res.ok) {
+        throw new Error(data?.error || "Subscription failed. Please try again.")
+      }
+      setSubmitted(true)
+    } catch (err) {
+      setErrorMessage(err instanceof Error ? err.message : "Something went wrong.")
+    } finally {
+      setSubmitting(false)
+    }
   }
 
   return (
@@ -78,10 +98,16 @@ export function SubscribeSection() {
                 />
                 <button
                   type="submit"
-                  className="w-full rounded-full bg-primary px-8 py-4 text-sm font-semibold uppercase tracking-wide text-primary-foreground hover:bg-primary/90 transition-colors"
+                  disabled={submitting}
+                  className="w-full rounded-full bg-primary px-8 py-4 text-sm font-semibold uppercase tracking-wide text-primary-foreground hover:bg-primary/90 transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
                 >
-                  Subscribe
+                  {submitting ? "Submitting..." : "Subscribe"}
                 </button>
+                {errorMessage && (
+                  <p role="alert" className="text-sm text-primary">
+                    {errorMessage}
+                  </p>
+                )}
               </form>
             )}
 
